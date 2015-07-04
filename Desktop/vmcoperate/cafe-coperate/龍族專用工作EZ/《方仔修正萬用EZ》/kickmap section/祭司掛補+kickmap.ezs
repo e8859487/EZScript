@@ -1,0 +1,187 @@
+[variable]
+var1=4358755
+var2=6517124
+var3=
+var4=
+var5=1578116
+var6=
+var7=
+var8=
+pos1=16187799
+pos2=16187799
+pos3=
+pos4=
+pos5=37552160
+pos6=
+pos7=
+pos8=
+[script]
+[script]
+////小方改編版超強打圖模組-技師版
+//pos1 補血與排為施放對象
+//pos2 自己    (不用設)
+//f2 聖力恢復 F3 祈禱 F4牌為 f8補體
+//藥水湘放第二格
+//f6 神聖治療&神蹟
+//   2014 / 1 / 24 最後更新
+KeyString "\n" 
+MouseMove 524296 
+Echo "/tradeoff" 
+delay(500) 
+KeyString "\n" 
+
+KeyString "\n" 
+MouseMove 524296 
+Echo "/effectoff" 
+delay(500) 
+KeyString "\n"
+//----------------------------------
+WORK:
+//call prayrestore    
+//聖力回覆(f2)
+call restore         
+  //補血(f4)
+//call protection    
+  //牌為(f6)
+call restore          
+   //補血(f4)
+call plus          
+   ////祈禱(f2)
+call restoreME    
+ //自動喝水
+call attackskill
+//jc攻擊季f3
+JUMP WORK
+//----------------------------------
+
+
+restoreME:         //自動喝水
+//Var5=Color[Pos5]
+If Color[Pos5]!=Var5
+KeyPress(50)
+Delay(100)
+End If
+return
+
+
+
+//聖力回覆
+prayrestore:
+call restoreME
+keypress(f2)
+Delay(200) 
+keypress(f2)
+MouseMove pos2
+repeat 20                  //調整延遲時間(改次數)
+Right Down pos2
+Delay(50) 
+Right Up pos2
+Delay(50) 
+Right Down pos2
+Delay(50) 
+Right Up pos2
+Delay(50) 
+Right Down pos2
+Delay(50) 
+Right Up pos2
+endrepeat
+
+return
+
+//祈禱
+plus:
+
+keypress(f2)
+Delay(200) 
+keypress(f2)
+MouseMove pos1
+repeat 20                  //調整延遲時間(改次數)
+Right Down pos1
+Delay(50) 
+Right Up pos1
+Delay(50) 
+Right Down pos1
+Delay(50) 
+Right Up pos1
+Delay(50) 
+Right Down pos1
+Delay(50) 
+Right Up pos1
+ 
+call restoreME
+end repeat            //結束延遲 
+return
+
+//牌為
+protection: 
+call restoreME
+keypress(f6)
+Delay(200) 
+keypress(f6)
+MouseMove pos1
+repeat 20                  //調整延遲時間(改次數)
+Right Down pos1
+Delay(50) 
+Right Up pos1
+Delay(50) 
+Right Down pos1
+Delay(50) 
+Right Up pos1
+Delay(50) 
+Right Down pos1
+Delay(50) 
+Right Up pos1
+  
+call restoreME
+end repeat            //結束延遲 
+return
+
+
+//jc攻擊季
+attackskill:
+call restoreME
+keypress(f3)
+Delay(200) 
+keypress(f3)
+MouseMove pos5
+repeat 20                  //調整延遲時間(改次數)
+Delay(50) 
+Right Down pos5
+Delay(50) 
+Right Up pos5
+Delay(50) 
+Right Down pos5
+Delay(50) 
+Right Up pos5
+Delay(50) 
+Right Down pos5
+Delay(50) 
+Right Up pos5
+end repeat
+return
+
+
+//單體補血
+restore:
+REPEAT 5
+call restoreME
+keypress(f4)
+Delay(200) 
+keypress(f6)
+MouseMove pos1
+repeat 20                  //調整延遲時間(改次數)
+Right Down pos1
+Delay(50) 
+Right Up pos1
+Delay(50) 
+Right Down pos1
+Delay(50) 
+Right Up pos1
+Delay(50) 
+Right Down pos1
+Delay(50) 
+Right Up pos1
+call restoreME
+end repeat            //結束延遲 
+END REPEAT 
+return

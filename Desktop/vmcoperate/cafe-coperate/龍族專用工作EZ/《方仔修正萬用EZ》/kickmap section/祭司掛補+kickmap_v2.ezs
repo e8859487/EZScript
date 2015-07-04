@@ -1,0 +1,200 @@
+[variable]
+var1=16777215
+var2=3758410
+var3=4352346
+var4=
+var5=3223708
+var6=
+var7=
+var8=
+pos1=16777616
+pos2=16777616
+pos3=10813844
+pos4=
+pos5=37683231
+pos6=
+pos7=
+pos8=
+[script]
+[script]
+////小方改編版超強打圖模組-技師版
+//pos1 補血與排為施放對象
+//pos2 自己    (不用設)
+//pos3 攻擊位
+//f2 聖力恢復 F3 祈禱 F6牌為 
+//藥水湘放第二格
+//f4神聖治療&神蹟 攻擊F1
+//   2015 / 6 / 27 最後更新
+
+//補血單循環頻率
+ExtVar[0] = 1
+
+//補血次數
+ExtVar[1] = 1
+//攻擊次數
+ExtVar[2] = 3
+
+KeyString "\n" 
+MouseMove 524296 
+Echo "/tradeon" 
+delay(500) 
+KeyString "\n" 
+MouseMove 524296 
+Echo "/effectoff" 
+delay(500) 
+KeyString "\n"
+//----------------------------------
+WORK:
+//call prayrestore    
+//聖力回覆(f2)
+//call restore         
+  //補血(f4)
+//call protection    
+  //牌為(f6)
+//call restore          
+   //補血(f4)
+call plus          
+   ////祈禱(f3)
+repeat ExtVar[1]
+call restore          
+   //補血(f4)   
+ end repeat 
+repeat ExtVar[2]
+call attackskill
+
+//jc攻擊季f1
+end repeat 
+JUMP WORK
+//----------------------------------
+
+
+restoreME:         //自動喝水
+//Var5=Color[Pos5]
+If Color[Pos5]!=Var5
+KeyPress(50)
+Delay(100)
+End If
+return
+
+
+
+//聖力回覆
+prayrestore:
+call restoreME
+keypress(f2)
+Delay(200) 
+keypress(f2)
+MouseMove pos2
+repeat 17                  //調整延遲時間(改次數)
+Right Down pos2
+Delay(50) 
+Right Up pos2
+Delay(50) 
+Right Down pos2
+Delay(50) 
+Right Up pos2
+Delay(50) 
+Right Down pos2
+Delay(50) 
+Right Up pos2
+end repeat
+
+return
+
+//祈禱
+plus:
+keypress(f3)
+Delay(200) 
+keypress(f3)
+MouseMove pos1
+repeat 17                  //調整延遲時間(改次數)
+Right Down pos1
+Delay(50) 
+Right Up pos1
+Delay(50) 
+Right Down pos1
+Delay(50) 
+Right Up pos1
+Delay(50) 
+Right Down pos1
+Delay(50) 
+Right Up pos1
+ 
+call restoreME
+end repeat            //結束延遲 
+return
+
+//牌為
+protection: 
+call restoreME
+keypress(f6)
+Delay(200) 
+keypress(f6)
+MouseMove pos1
+repeat 17                  //調整延遲時間(改次數)
+Right Down pos1
+Delay(50) 
+Right Up pos1
+Delay(50) 
+Right Down pos1
+Delay(50) 
+Right Up pos1
+Delay(50) 
+Right Down pos1
+Delay(50) 
+Right Up pos1
+  
+call restoreME
+end repeat            //結束延遲 
+return
+
+
+//jc攻擊季
+attackskill:
+call restoreME
+keypress(f1)
+Delay(200) 
+keypress(f1)
+MouseMove pos3
+repeat 17                  //調整延遲時間(改次數)
+Delay(50) 
+Right Down pos3
+Delay(50) 
+Right Up pos3
+Delay(50) 
+Right Down pos3
+Delay(50) 
+Right Up pos3
+Delay(50) 
+Right Down pos3
+Delay(50) 
+Right Up pos3
+end repeat
+return
+
+
+
+//補血skill
+restore:
+REPEAT ExtVar[0]
+call restoreME
+keypress(f4)
+Delay(200) 
+keypress(f6)
+MouseMove pos1
+repeat 17                  //調整延遲時間(改次數)
+Right Down pos1
+Delay(50) 
+Right Up pos1
+Delay(50) 
+Right Down pos1
+Delay(50) 
+Right Up pos1
+Delay(50) 
+Right Down pos1
+Delay(50) 
+Right Up pos1
+call restoreME
+end repeat            //結束延遲 
+END REPEAT 
+return

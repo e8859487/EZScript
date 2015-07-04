@@ -1,0 +1,137 @@
+[variable]
+var1=1050731
+var2=5927308
+var3=11374179
+var4=532521
+var5=4347251
+var6=6519188
+var7=4880747
+var8=3747996
+pos1=9568413
+pos2=8323219
+pos3=8781970
+pos4=31785712
+pos5=38732535
+pos6=38732535
+pos7=18350254
+pos8=36831264
+[script]
+KeyString "\n\n"
+Delay(200)
+//小方改編版超強打圖模組-盜賊版
+//8 補血血量     已事先設定 必要時在修改
+//4 施放戰技位置
+//2 ,3怪物位置
+//藥水箱放第2格
+
+//f4 攻擊技能
+//---------start-------ExtVar0 存CP or Not  ExtVar1 計數器
+Delay(100)
+KeyString "\n"
+KeyString "\n"
+KeyString "\n"
+Delay(100)
+KeyString "/effectoff\n"
+KeyString"\n"
+KeyString "/tradeon\n"
+KeyString "/takeon\n"
+KeyString "/nationparty\n"
+KeyString"\n"
+Delay(100)
+keypress(27)
+Call SetBattle
+//-----------一次性變數設定 var8 = 血位置  
+//Var8=Color[Pos8]
+//Var2=Color[Pos2]
+//Var3=Color[Pos3]
+//Var4=Color[Pos4]
+//Var5=Color[Pos5]
+//Var6=Color[Pos6]
+//Var7=Color[Pos7]
+extvar[1]=0
+//-----------變數設定完畢-----------
+start:
+
+//攻擊和檢測血量---外回圈
+
+//檢測血量
+    If Color[Pos8]!=Var8
+        KeyUp(16)
+        Call restore
+    End If
+//攻擊
+    KeyDown(16)
+    Delay(50)
+    Repeat 10
+	Delay(25)
+        Left Click pos2
+	Delay(25)
+        Left Click pos3
+    End Repeat
+
+
+//放技能
+if   Color[38732535]!=2203193
+	Repeat 5
+	Right Down pos4
+	Delay(25)
+	Right Up pos4
+	Delay(25)
+	End Repeat
+end if
+
+//看是否存活
+if   Color[38469670]=3758451
+	call waitalive
+end if
+Jump start
+
+
+//-----------------副程式-----------------
+restore:
+KeyPress(50)
+Delay(100)
+KeyDown(16)
+Delay(500)
+return
+
+waitalive:
+Keyup(16)
+KeyPress(16)
+    while  Color[38469670]=3758451
+        Call restore
+    wend
+    KeyString(\n)
+    Delay(500)
+keypress(27)
+keypress(27)
+
+//設換戰鬥狀態
+While Color[36700855] != 0 || Color[37159613] != 0
+  keypress(27)
+  Delay(1000)
+  LClick 36766401
+  Delay(150)
+Wend
+keypress(115)
+keypress(115)
+keypress(115)
+
+
+extvar[1]=7
+return
+
+
+//設換戰鬥狀態
+//使用方法: Call SetBattle
+SetBattle:
+While Color[36700855] != 0 || Color[37159613] != 0
+  keypress(27)
+  Delay(1000)
+  LClick 36766401
+  Delay(150)
+Wend
+keypress(115)
+keypress(115)
+keypress(115)
+Return

@@ -1,0 +1,84 @@
+[variable]
+var1=3223708
+var2=1054744
+var3=
+var4=-1
+var5=
+var6=
+var7=50
+var8=45
+pos1=37617696
+pos2=31064813
+pos3=
+pos4=35389481
+pos5=
+pos6=
+pos7=
+pos8=
+[script]
+//小方改編版超強打圖模組-戰士版
+//
+//自動喝水加泰班 泰班設F2
+//藥水箱放第二格
+//施放泰班時間間隔  
+//pos1 生命低於pos1 喝水
+//pos2 泰班施法位置
+
+//↓↓↓↓泰班施展時間間隔↓↓↓↓↓
+
+var7=50
+
+//---------------以下別鳥他-------------------
+
+
+
+
+var8=var7
+Delay(500)
+KeyString "\n"
+KeyString "\n"
+Delay(500)
+KeyString "\n"
+KeyString "/TAKEON\n"
+KeyString "START!!"
+Delay(500)
+KeyPress(27)
+Delay(50)
+KeyPress(113)
+KeyPress(113)
+KeyPress(113)
+Delay(800)
+        repeat 5
+         right Down pos2
+         Delay(100)
+         right Up pos2
+         Delay(100)
+        end repeat
+
+
+
+Var1=Color[Pos1]
+main:
+
+       If Color[Pos1]!=Var1
+            
+           KeyPress(50)
+            delay(500)
+
+        End If
+
+var8=var8-1
+       if(var8<=0)
+         Delay(100)
+        repeat 3
+         right Down pos2
+         Delay(100)
+         right Up pos2
+         Delay(100)
+        end repeat
+         var8=var7
+
+end if
+
+jump main
+

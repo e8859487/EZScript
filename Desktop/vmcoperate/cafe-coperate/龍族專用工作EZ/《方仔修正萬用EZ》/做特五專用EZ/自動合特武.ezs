@@ -1,0 +1,354 @@
+[variable]
+var1=2
+var2=
+var3=
+var4=5929348
+var5=4872547
+var6=21299718
+var7=14
+var8=4
+pos1=14156269
+pos2=11731331
+pos3=12911001
+pos4=
+pos5=22086262
+pos6=22020724
+pos7=22020724
+pos8=
+[script]
+Var5=Color[Pos5]
+//  2014/10/26 再版，自動合裝EZ
+//2015/03/22 修正顏色
+
+
+//=============== mode1 :自動合成G5   mode2: 自動合成G4
+var1 = 1
+//==============
+
+delay(300)
+KeyString "\n \n \n \n \n"
+delay(300)
+KeyString "/shifton \n"
+KeyString "\nteestststststststststst"
+
+
+jump init 
+
+choice:
+KeyString "fin init"
+delay(250)
+if var1 = 1 
+    jump G5main
+end if
+if var1 = 2
+    jump G4main  
+
+end if
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+G5main:
+
+var7=19
+ //計算格子位置ExtVar[1-24] 
+var8=1
+        delay(200)
+    KeyPress(27)
+        delay(200)
+
+Repeat 6
+    call checkwindow
+    MouseMove 22086262
+delay (50)
+     Left Click 22086262
+     Left Click 22086262
+     Left Click 22086262
+     Left Click 22086262
+     Left Click 22086262
+    call make1_2
+end Repeat 
+
+call initial2
+
+Repeat 6
+    call checkwindow
+    call make1_2
+end Repeat 
+
+
+
+//完成G2合成下面進行G3
+
+call initial3
+
+Repeat 6
+    call checkwindow
+    call make2_4
+end Repeat 
+
+
+//完成G3合成下面進行G4
+//使需初始化裝備位置var8就好
+var8=1
+var7=7
+Repeat 3
+    call checkwindow
+    call make2_4
+end Repeat 
+
+//完成G4合成下面進行G5
+var8=1
+var7=10
+call checkwindow
+call make4_5
+
+//完成G5合成 結束
+
+delay(300)
+KeyString "\n \n \n \n \n "
+delay(300)
+KeyString "/shiftoff\n"
+delay(300)
+KeyString "finished!!!  : ) "
+
+stop
+jump G5main
+
+
+/////////////////////////////////G4模組 
+G4main:
+
+var7=13
+ //計算格子位置ExtVar[1-24] 
+var8=1
+        delay(200)
+    KeyPress(27)
+        delay(200)
+
+Repeat 4
+    call checkwindow
+    call make1_2
+end Repeat 
+
+
+//完成G2合成下面進行G3
+var8=1
+Repeat 2
+    call checkwindow
+       delay(200)
+        Drag From ExtVar[var8] to 11993462  
+        var8=1 +  var8
+        delay(200)
+        Drag From ExtVar[var8] to 11731331
+        var8=1 +  var8
+        delay(200)
+       Drag From ExtVar[var7] to 11207034
+    var7=var7+1
+    delay(500)
+    Left Click 26804442
+    delay(1500)
+end Repeat 
+
+
+/////////////////完成G3合成下面進行G4/////////////////////////////
+//使需初始化裝備位置var8就好
+var8=1
+Repeat 1
+    call checkwindow
+   delay(200)
+        Drag From ExtVar[var8] to 11993462  
+        var8=1 +  var8
+        delay(200)
+        Drag From ExtVar[var8] to 11731331
+        var8=1 +  var8
+        delay(200)
+       Drag From ExtVar[var7] to 11207034
+    var7=var7+1
+    delay(500)
+    Left Click 26804442
+    delay(1500)
+end Repeat 
+
+
+/////////////////完成G4合成 結束/////////////////////////////
+
+delay(300)
+KeyString "\n \n \n \n \n "
+delay(300)
+KeyString "/shiftoff\n"
+delay(300)
+KeyString "finished!!!  : ) "
+
+stop
+//G4模組結束
+jump G4main
+
+
+
+
+
+
+checkwindow:
+    delay(200)
+while Color[7995690] !=5926267
+
+    KeyPress(191)    
+    delay(300)
+wend
+return
+//合成G1變G2
+make1_2:
+   delay(200)
+        Drag From ExtVar[var8] to 11993462  
+        var8=1 +  var8
+        delay(200)
+        Drag From ExtVar[var8] to 11731331
+        var8=1 +  var8
+        delay(200)
+       Drag From ExtVar[var8] to 10092904
+
+        var8=1 +  var8
+        delay(200)
+       Drag From ExtVar[var7] to 11207034
+    var7=var7+1
+    delay(500)
+    Left Click 26804442
+    delay(700)
+
+return
+
+//合成G2變G4
+make2_4:
+   delay(200)
+        Drag From ExtVar[var8] to 11993462  
+        var8=1 +  var8
+        delay(200)
+        Drag From ExtVar[var8] to 11731331
+        var8=1 +  var8
+        delay(200)
+    Left Click   21955226
+    delay(150)
+    Left Click   21955226
+    delay(150)
+       Drag From ExtVar[var7] to 11207034
+    var7=var7+1
+    delay(500)
+    Left Click 26804442
+    delay(1500)
+    Left Click   21889651
+    delay(50)
+    Left Click   21889651
+    delay(50)
+return
+
+//合成G4變G5
+make4_5:
+   delay(200)
+        Drag From ExtVar[var8] to 11993462  
+        var8=1 +  var8
+        delay(200)
+        Drag From ExtVar[var8] to 11731331
+        var8=1 +  var8
+        delay(200)
+        Drag From ExtVar[var8] to 11731331
+        var8=1 +  var8
+        delay(200)
+    Left Click   21955226
+    delay(150)
+    Left Click   21955226
+    delay(150)
+       Drag From ExtVar[var7] to 11207034
+    var7=var7+1
+    delay(500)
+    Left Click 26804442
+    delay(1500)
+    Left Click   21889651
+    delay(50)
+    Left Click   21889651
+    delay(50)
+return
+
+
+
+
+
+//初始化模組
+initial2:
+delay(150)
+//檢查是否有開包包(W)
+while Color[14156269] != 5929348
+delay(150)
+KeyPress(27)
+delay(150)
+KeyPress(87)
+delay(500)
+wend
+var7=19
+ //計算格子位置ExtVar[1-24] 
+var8=1
+delay(500)
+Left Click   21955226
+delay(150)
+return
+
+//初始化模組 g2用
+initial3:
+delay(150)
+//檢查是否有開包包(W)
+while Color[14156269] != 5929348
+    delay(150)
+    KeyPress(27)
+    delay(150)
+    KeyPress(87)
+    delay(500)
+wend
+
+var7=1
+ //計算格子位置ExtVar[1-24] 
+var8=1
+
+delay(500)
+Left Click   21889651
+delay(50)
+Left Click   21889651
+delay(50)
+Left Click   21889651
+delay(50)
+return
+
+
+
+
+
+
+
+
+
+
+
+
+
+init:
+ //以下是座標宣告 不需要在執行了
+ExtVar[0]=14418438
+//14483977
+var6 =ExtVar[0]
+var8=1
+ExtVar[var8]=ExtVar[0]
+
+repeat 3
+  repeat 8
+    ExtVar[var8] = var6
+    var6 = var6  +35   
+        //MouseMove  ExtVar[var8]
+   // delay(300)
+  var8=var8+1
+  end repeat
+  var6   = var6  +65536*35 -35*8
+end repeat
+ //以上是座標宣告 不需要在執行了
+jump choice
+//jump init
