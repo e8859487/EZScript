@@ -1,0 +1,234 @@
+[variable]
+var1=7045788
+var2=16765778
+var3=
+var4=5
+var5=37541
+var6=5
+var7=
+var8=
+pos1=16974225
+pos2=16843152
+pos3=
+pos4=
+pos5=9961834
+pos6=
+pos7=
+pos8=
+[script]
+[script]
+////小方改編版超強打圖模組-技師版
+//pos1 補血與排為施放對象
+//pos2 自己    (不用設)
+//f2 聖力恢復 F3 祈禱 F6牌為 f8補體
+//藥水湘放第二格
+//f4神聖治療&神蹟
+
+
+
+//↓↓↓↓喊話時間間隔↓↓↓↓↓
+var6=5
+
+KeyString "\n" 
+MouseMove 524296 
+Echo "/tradeoff" 
+delay(500) 
+KeyString "\n" 
+
+KeyString "\n" 
+MouseMove 524296 
+Echo "/effectoff" 
+delay(500) 
+Echo "/shifton" 
+delay(500) 
+KeyString "\n"
+var4=var6
+Var5=Color[Pos5]
+//----------------------------------
+
+Main:
+call Talk
+Call SetBattle
+call prayrestore
+call plus
+call protection
+call make
+call restore
+ call make
+call restoreME
+call make
+call Zero
+
+keypress(27)
+JUMP Main
+//----------------------------------
+
+
+
+
+restoreME:
+	If Color[Pos5]!=Var5
+	KeyPress(50)
+	Delay(100)
+End If
+return
+
+
+
+//聖力回覆
+prayrestore:
+call restoreME
+keypress(f2)
+Delay(200) 
+keypress(f2)
+MouseMove pos2
+Delay(3000) 
+Repeat 5
+Right Down pos2
+Delay(50) 
+Right Up pos2
+end repeat
+Delay(4000) 
+
+return
+
+//祈禱
+plus:
+
+keypress(f3)
+Delay(200) 
+keypress(f3)
+MouseMove pos1
+Delay(2500) 
+Repeat 5
+Right Down pos1
+Delay(50) 
+Right Up pos1
+end repeat
+Delay(4000) 
+return
+
+//牌為
+protection: 
+call restoreME
+keypress(f6)
+Delay(200) 
+keypress(f4)
+MouseMove pos1
+Delay(2500) 
+Repeat 5
+Right Down pos1
+Delay(50) 
+Right Up pos1
+end repeat
+Delay(4000) 
+return
+
+//單體補血
+restore:
+REPEAT 3
+call Zero
+call restoreME
+keypress(f4)
+Delay(200) 
+keypress(f6)
+MouseMove pos2
+Delay(3000) 
+Repeat 5
+Right Down pos2
+Delay(50) 
+Right Up pos2
+end repeat
+Delay(3700) 
+END REPEAT 
+return
+
+Talk:
+ 
+		KeyString "\n\n"
+		Delay(1000)
+		MouseMove 524296
+		Echo "請各位大大組組~~ 我會給您無時差的++  謝謝^^  \n"
+                                //Echo " 吸趴的請站100,130左右 (  )  \n"22
+                               // 請各位大大組我  小小動作 可以讓您安全無慮   彼此互助~謝謝^O^  
+		Delay(1000)
+		KeyString "\n\n"
+		Delay(100)
+		keypress(27)
+ 
+return
+
+
+Zero:
+    If Color[35455532] = 4358821 && Color[35455537] = 4358821
+         KeyPress(27)
+             delay(500)
+        KeyPress(27)
+            delay(500)
+         KeyPress(69)
+            delay(500)
+         Left Click 3736191
+            delay(500)
+         Left Click 3736191
+            delay(500)
+         KeyPress(27)
+             delay(500)
+        KeyPress(27)
+            delay(500)
+    End If
+return
+
+
+make:
+ delay(500)
+keypress(27)
+    delay(500)
+keystring("\n\n")
+KeyPress(112)
+delay(500)
+MouseMove pos5
+
+delay(500)
+Left Down pos5
+
+delay(500)
+Left Up pos5
+
+delay(500)
+MouseMove 23134612
+
+delay(500)
+Left Down 23134612
+
+delay(500)
+Left Up 23134612
+
+delay(500)
+MouseMove 23986502
+
+delay(500)
+Left Down 23986502
+
+delay(500)
+Left Up 23986502
+    delay(500)
+keypress(27)
+    delay(500)
+
+return
+
+
+
+設換戰鬥狀態
+//使用方法: Call SetBattle
+SetBattle:
+repeat 5
+if Color[36700855] != 0 || Color[37159613] != 0
+  keypress(27)
+  keypress(120)
+  Delay(1000)
+  LClick 36766401
+  Delay(150)
+end if
+end repeat
+Return

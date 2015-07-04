@@ -1,0 +1,31 @@
+Var1=Color[Pos1]
+Var2=Color[Pos2]
+stop
+
+MouseMove 2698281
+Left Click 2170913
+
+
+
+
+if color[30343830 ] = 1590602 && color[4456547 ] = 2183514
+
+end if
+while color[ 7405880 ] != 2698281 && color[ 28115377 ] != 2170913
+   while color[11076076 ] = 5922171  && color[11862325 ] = 5406100
+     jump step3     
+   wend
+wend
+     jump step4 
+
+ExtVar[48] = 0
+&& ExtVar[48] < 50
+ExtVar[48] = ExtVar[48] + 1
+
+If ExtVar[48] >= 50
+
+繳色選單
+左上  10092701
+右上  10879638
+左下  24969357
+右下  23986840

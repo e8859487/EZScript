@@ -1,0 +1,163 @@
+[variable]
+var1=4872522
+var2=
+var3=
+var4=
+var5=8104621
+var6=
+var7=
+var8=
+pos1=7406066
+pos2=7143932
+pos3=
+pos4=
+pos5=38142648
+pos6=38142648
+pos7=
+pos8=
+[script]
+KeyString "\n\n"
+Delay(100)
+KeyString "test1.0\n\n"
+Delay(100)
+KeyString "test1.0\n\n"
+Delay(100)
+KeyPress(27)
+Delay(100)
+KeyPress(27)
+Delay(100)
+KeyPress(16)
+Delay(100)
+KeyPress(16)
+
+//-------------------------案磁碟片-----------------
+step0:
+Delay(500)
+MouseMove 38011540
+Delay(500)
+Left Click 38011540
+
+Delay(500)
+
+    if color[18874815] = 4874611 && color[18743614] = 4874619 
+    jump step1
+   else
+   jump step0
+   end if
+//-------------------------step1:選登出--------------------
+step1:
+MouseMove 15991203
+Delay(500)
+Left Click 15991203
+Delay(500)
+//-------
+    if color[11665713 ] = 6524589  && color[8585646 ] = 1582129
+    jump step2
+    
+   else
+   jump step1
+   end if
+//-------------------------step2:選登出-press確定------------------------
+step2:
+Delay(500)
+MouseMove 7537137
+Delay(500)
+Left Click 7537137
+Delay(500)
+
+step21:
+//-------ckeck
+    if color[4326082 ] = 3225666 && color[22872247 ] = 2056
+    jump step3
+    
+   else
+   jump step21
+   Delay(2000)
+   end if
+//-------------------------step3:回龍族選單+keypress------------------
+step3:
+//-----選1.國內   2.國外
+Delay(1500)
+MouseMove 18678215
+Delay(500)
+Left Click 18678215
+
+//-----打密碼
+delay(3000)
+KeyString "1"
+delay(300)
+KeyString "9"
+delay(300)
+KeyString "9"
+delay(300)
+KeyString "2"
+delay(300)
+KeyString "1"
+delay(300)
+KeyString "1"
+delay(300)
+KeyString "3"
+delay(300)
+KeyString "0"
+delay(300)
+//-----press enter!
+        delay(500)
+	MouseMove 27394452
+        delay(500)
+Left Click 27394452
+Left Click 27394438
+
+delay(300)
+//-------ckeck password correct or not
+while color[ 7405880 ] != 2698281 
+        delay(3000)
+//-------錯誤
+   while color[11076076 ] = 5922171  
+//-------案確定
+        delay(500)
+	MouseMove 7406066
+        delay(500)
+	Left Click 7406066
+        delay(500)
+	MouseMove 7143932
+        delay(500)
+	Left Click 7143932
+        delay(500)
+//-------案相關資料
+	MouseMove 2698281
+        delay(500)
+	Left Click 2170913
+        delay(3000)
+//-------案掉相關資料進入登入畫面
+	MouseMove 2228263
+        delay(1500)
+	Left Click 2228263
+        delay(1500)
+	MouseMove 3212029
+        delay(1500)
+	Left Click3212029
+        delay(1500)
+	jump step3     
+   wend
+wend
+     jump step4 
+//-------------------------step4:選角+確定登入+最近離縣 
+step4:
+//--------選角
+        delay(1500)
+	MouseMove 23986840
+        delay(1500)
+
+                Left DbClick  23986840
+                Left DbClick  23986840
+        delay(1500)
+//--------最近離線
+
+       delay(500)
+//--------
+	MouseMove 35914316
+       delay(500)
+	Left Click 38142648
+
+     
+       delay(500)	

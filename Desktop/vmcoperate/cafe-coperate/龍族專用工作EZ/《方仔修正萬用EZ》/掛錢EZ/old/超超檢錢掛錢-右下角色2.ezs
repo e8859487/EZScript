@@ -1,0 +1,894 @@
+[variable]
+var1=4866345
+var2=1054753
+var3=2169897
+var4=
+var5=
+var6=
+var7=
+var8=
+pos1=21496335
+pos2=9175393
+pos3=17695123
+pos4=
+pos5=8388948
+pos6=
+pos7=
+pos8=
+[script]
+//此為CAFE龍族-鑽會資產, 本程序如有問題請聯絡"救命呀help"
+
+
+//Pos1=物品老闆位置(Ctrl+Alt+1)
+//Pos2=創造的物品位置(Ctrl+Alt+2)
+//Pos3=自己隻腳位置(Ctrl+Alt+3)
+//pos4=自己位置(魔法回FOOD用,如不用魔法則無需設定
+//因必須為戰鬥模式才能用魔法, 如有可能於撿物時打到警察,
+//建議水箱放食物而不設定POS4, 魔法快鍵為F6)
+//pos5=銀行老闆位置(Ctrl+alt+5)
+
+
+//-----以下項目請手動修改----->>
+
+//掛錢設置: 鐵砧=1 , 木桌=2 , 坐墊 = 3
+ExtVar[14] = 1
+//撿物方式: 掃地式撿物 = 1 , 抓色撿物 = 2 (抓色可能某些位置撿錯東西, POS3設定失效)
+ExtVar[36] = 1
+//一回合執東西多少次(掃地式撿物使用)
+ExtVar[24] = 20
+//每回合購入材料的份量
+ExtVar[15] = 10
+
+//-----以上項目請手動修改-----<<
+
+
+
+
+//以下不建議修改
+Call RKAIDRShift
+if ExtVar[14] = 1
+  ExtVar[10] = 1221
+  ExtVar[12] = 1212
+ElseIf ExtVar[14] = 2
+  ExtVar[10] = 1123
+  ExtVar[12] = 0000
+ElseIf ExtVar[14] = 3
+  ExtVar[10] = 6221
+  ExtVar[12] = 6132
+end if
+
+ExtVar[18] = Color[34930757]
+MouseMove 15860112
+ExtVar[8] = 3
+ExtVar[47] = 200
+ExtVar[48] = 0
+ExtVar[26] = 0
+ExtVar[29] = 0
+extvar[30] = 0
+ExtVar[31] = GetColorPos[6218,11600205,22151640] //w
+ExtVar[32] = GetColorPos[5922138,11600205,22151640] //i
+ExtVar[33] = GetColorPos[2171961,11600205,22151640] //s
+
+
+If Pos1 <= 0 || Pos2 <= 0 || pos3 <= 0 || pos5 <= 0
+KeyDown(13)
+KeyUp(13)
+KeyString "Please Set Pos1 Pos2 Pos3 Pos5!"
+Stop
+End If
+
+
+Call Command
+
+Job:
+Call Boss
+Call BossSell
+if color[34996331] != 51183 && pos4>1
+call mfood1
+end if
+
+Call BossEnd
+if color[34996331] != 51183 && pos4>1
+call mfood2
+end if
+jump WorkC
+worke:
+If ExtVar[29] = 1
+Call deposit
+end if
+Jump Job
+
+Boss:
+ExtVar[48] = 0
+While Color[3408418] != 0 && ExtVar[48] < 25
+MouseMove pos1
+KeyDown(13)
+KeyUp(13)
+KeyString "BOSS a0av"
+KeyDown(13)
+KeyUp(13)
+Delay(100)
+ExtVar[48] = ExtVar[48] + 1
+If ExtVar[48] = 15
+Call RKAIDR
+End If
+Wend
+If ExtVar[48] >= 25
+Call RELOAD
+
+End If
+Return
+
+BossEnd:
+ExtVar[48] = 0
+While Color[3408418] = 0 && ExtVar[48] < 10
+keypress(32)
+delay(10)
+ExtVar[48] = ExtVar[48] + 1
+Wend
+If ExtVar[48] >= 10
+Call RKAIDR
+End If
+Return
+
+BossSell:
+KeyDown(16)
+ExtVar[48] = 0
+While (Color[3408418] = 0 || Color[1769964] != 0 || Color[3211856] != 0) && ExtVar[48] < 50
+LClick 10617434
+Delay(20)
+ExtVar[48] = ExtVar[48] + 1
+Wend
+If ExtVar[48] >= 50
+Call RKAIDR
+End If
+If Color[1769964] = 0 && Color[3211856] = 0
+ExtVar[48] = 0
+If color[19202559] = 13558750 && color[19268095] = 13558750
+ExtVar[29] = 1
+end if
+while color[4587983] != 2701378  && ExtVar[48] < 10
+ExtVar[48] = ExtVar[48] + 1
+SellAll 1 1
+if ExtVar[48] >= 10
+Call RKAIDR
+end if
+delay(20)
+wend
+End If
+ExtVar[48] = 0
+While Color[1769964] = 0 && Color[3211856] = 0 && ExtVar[48] < 100
+LClick 19071601
+Delay(10)
+ExtVar[48] = ExtVar[48] + 1
+Wend
+If ExtVar[48] >= 100
+Call RKAIDR
+End If
+ExtVar[48] = 0
+While Color[3408418] = 0 && ExtVar[48] < 100
+keypress(32)
+Delay(10)
+ExtVar[48] = ExtVar[48] + 1
+Wend
+If ExtVar[48] >= 100
+Call RKAIDR
+End If
+Return
+
+BossBuy:
+KeyDown(16)
+ExtVar[48] = 0
+While (Color[3408418] = 0 || Color[1769964] != 0 || Color[3211856] != 0) && ExtVar[48] < ExtVar[47]
+LClick 10617356
+Delay(20)
+ExtVar[48] = ExtVar[48] + 1
+Wend
+If Color[1769964] = 0 && Color[3211856] = 0
+If ExtVar[10] / 1000 >= 1 && ExtVar[10] % 10 >= 1
+Repeat (ExtVar[10] / 1000) - 1
+LClick 9372285
+End Repeat
+Left DbClick 5046911
+LClick XY2Pos[430 + 35 * ((ExtVar[10] / 10) % 10), 35 + 35 * ((ExtVar[10] / 100) % 10)]
+Repeat (ExtVar[10] % 10 / 2 * ExtVar[15])
+Buy 19202517 1 1
+End Repeat
+End If
+If ExtVar[12] / 1000 >= 1 && ExtVar[12] % 10 >= 1
+Repeat (ExtVar[12] / 1000) - (ExtVar[10] / 1000)
+LClick 9372285
+End Repeat
+LClick XY2Pos[430 + 35 * ((ExtVar[12] / 10) % 10), 35 + 35 * ((ExtVar[12] / 100) % 10)]
+Repeat (ExtVar[12] % 10 / 2 * ExtVar[15])
+Buy 19202517 1 1
+End Repeat
+End If
+LClick 7340533
+ExtVar[48] = 0
+While Color[1769964] = 0 && Color[3211856] = 0 && ExtVar[48] < 100
+LClick 19071601
+Delay(20)
+ExtVar[48] = ExtVar[48] + 1
+Wend
+End If
+If ExtVar[48] >= 100
+Call RKAIDR
+End If
+keyup (16)
+Return
+
+WorkB:
+KeyDown(16)
+KeyDown(27)
+KeyUp(27)
+WorkBStart:
+call food
+Delay(20)
+RClick pos3
+KeyPress(191)
+Delay(20)
+ExtVar[48] = 0
+While (Color[5636379] != 0 || Color[5636420] != 0 || Color[5636580] != 0 || Color[22020392] != 0) && ExtVar[48] < ExtVar[47]
+KeyPress(191)
+KeyPress(191)
+KeyPress(191)
+Delay(20)
+RClick pos3
+ExtVar[48] = ExtVar[48] + 1
+Wend
+If Color[5636379] = 0 && Color[5636420] = 0 && Color[5636580] = 0 && Color[22020392] = 0
+LClick Pos2
+Delay(150)
+MouseMove 24969616
+delay(700)
+lclick 24969616
+
+ExtVar[48] = 0
+While Color[5636580] = 0 && ExtVar[48] < 10
+lclick 24248643
+Delay(300)
+ExtVar[48] = ExtVar[48] + 1
+Wend
+If Color[5636580] = 0
+ExtVar[48] = 0
+While Color[5636580] = 0 && ExtVar[48] < ExtVar[47]
+LClick 24248797
+Delay(30)
+ExtVar[48] = ExtVar[48] + 1
+Wend
+end if
+if ExtVar[36] = 1
+call workc
+elseif extvar[36] = 2
+call workd
+end if
+end if
+return
+
+Command:
+KeyDown(13)
+KeyUp(13)
+KeyString "/effectoff"
+KeyDown(13)
+KeyUp(13)
+KeyString "/tradeoff"
+KeyDown(13)
+KeyUp(13)
+KeyString "/shifton"
+KeyDown(13)
+KeyUp(13)
+KeyString "/doff"
+KeyDown(13)
+KeyUp(13)
+KeyString "/takeoff"
+KeyDown(13)
+KeyUp(13)
+KeyString "h"
+KeyDown(8)
+KeyUp(8)
+KeyString "gogogo"
+KeyDown(9)
+KeyUp(9)
+KeyDown(27)
+KeyUp(27)
+KeyDown(32)
+KeyUp(32)
+Return
+ 	
+
+Food:
+If Color[34930757] != ExtVar[18]
+    Right Down 37618139
+    Delay(100)
+    Right Up 37618139
+    Delay(50)
+end if
+Return
+
+mfood1:
+keypress(f6)
+keypress(f6)
+return
+
+mfood2:
+delay(50)
+mousemove pos4
+delay(50)
+Right DbClick pos4
+Right DbClick pos4
+return
+
+deposit:
+call RKAIDR
+ExtVar[29] = 0
+ExtVar[48] = 0
+while color[2818585] != 5930372 && color[4129437] != 5399931 && color[2294226] != 4350340 && ExtVar[48] < 50
+MouseMove pos5
+KeyDown(13)
+KeyUp(13)
+KeyString "Bank BOSS a0av"
+delay(20)
+KeyDown(13)
+KeyUp(13)
+Delay(200)
+   ExtVar[48] = ExtVar[48] + 1	
+
+	    If ExtVar[48] >= 50
+	    ExtVar[48] = 0
+	    return
+	    end if
+wend
+
+
+while color[3080826] != 4873579 && color[3146227] != 9218749 && color[4784783] != 545123
+Lclick 7012909
+Delay(100)
+wend
+mousemove 32637647
+mousemove 32637647
+delay(100)
+If Color[9896516] = 13558750 && Color[10093124] = 13558750 && Color[10420804] = 13558750
+extvar[30] = 1
+end if 
+repeat 4
+keypress(57)
+end repeat
+repeat 4
+keypress(48)
+end repeat
+delay(50)
+while color[3080826] = 4873579 && color[3146227] = 9218749 && color[4784783] = 545123
+Lclick 19923452
+Lclick 19923452
+wend
+if extver[30] = 1
+jump deposit2
+elseif extvar[30] != 1
+return
+end if
+
+
+deposit2:
+extvar[30] = 0
+call RKAIDR
+while color[2818585] != 5930372 && color[4129437] != 5399931 && color[2294226] != 4350340
+MouseMove pos5
+KeyDown(13)
+KeyUp(13)
+KeyString "Bank BOSS a0av"
+delay(20)
+KeyDown(13)
+KeyUp(13)
+Delay(200)
+wend
+while color[2884136] != 0 && color[12976620] != 4350340 && color[12976620] != 4873587
+Lclick 8782401
+Delay(100)
+wend
+keypress(49)
+repeat 9
+keypress(48)
+end repeat
+delay(50)
+while color[3080826] = 4873579 && color[3146227] = 9218749 && color[4784783] = 545123
+Lclick 19923452
+Lclick 19923452
+wend
+Return
+
+
+
+
+RKAIDR:
+If Color[11075656]=0 && Color[11075867]=0
+LClick 15073457
+Delay(1500)
+End If
+If Color[6553896]=0 && Color[11141592]=0
+LClick 7340533
+Delay(1500)
+End If
+If Color[2687467]=0 && Color[12255837]=0
+LClick 21693169
+Delay(1500)
+End If
+End If
+If Color[6553896]=0 && Color[11141592]=0
+LClick 7340533
+Delay(1500)
+End If
+If Color[2687467]=0 && Color[12255837]=0
+LClick 21693169
+Delay(1500)
+End If
+If Color[9175185]=0 && Color[29688458]=0
+LClick 28181001
+End If
+If Color[8913037]=0 && Color[29033106]=0
+LClick 27197991
+End If
+If Color[8912904]=0 && Color[28181270]=0
+LClick 26214800
+End If
+If Color[10486027]=0 && Color[25297422]=0
+LClick 26870157
+End If
+if color[5243031]=1056809 && color[5767620]=5925235 && color[20709831]=16776191
+Lclick 25362984
+end if
+If Color[328166]=0 && Color[22545178]=0
+LClick 21824242
+Delay(1000)
+LClick 21824242
+End If
+Return
+
+workD:
+var7 = time + 3
+extvar[48] = 0
+while ExtVar[1] > 1 || ExtVar[2] > 1 || ExtVar[11] > 1 || var7 > time
+ExtVar[31] = GetColorPos[7050925,11600205,22151640]
+ExtVar[32] = GetColorPos[5922138,11600205,22151640]
+ExtVar[33] = GetColorPos[5400939,11600205,22151640]
+extvar[48] = extvar[48] + 1
+if extvar[31] > 1
+LClick ExtVar[31]
+LClick ExtVar[31]
+end if
+if extvar[32] > 1
+LClick ExtVar[32]
+LClick ExtVar[32]
+end if
+if extvar[33] > 1
+LClick ExtVar[33]
+LClick ExtVar[33]
+end if
+if extvar[48] > 200
+jump worke
+end if
+wend
+jump worke
+
+
+WorkC:
+Repeat ExtVar[24]
+ExtVar[26] = Pos3 + XY2Pos[60,-60]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[45,-60]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[30,-60]
+Left Click ExtVar[26]
+delay(1)
+
+ExtVar[26] = Pos3 + XY2Pos[15,-60]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[0,-60]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-15,-60]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-30,-60]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-45,-60]
+Left Click ExtVar[26]
+delay(1)
+
+ExtVar[26] = Pos3 + XY2Pos[-60,-60]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[60,-20]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[45,-20]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[30,-20]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[15,-20]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[0,-20]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-15,-20]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-30,-20]
+Left Click ExtVar[26]
+delay(1)
+
+ExtVar[26] = Pos3 + XY2Pos[-45,-20]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-60,-20]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[60,20]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[45,20]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[30,20]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[15,20]
+Left Click ExtVar[26]
+delay(1)
+
+ExtVar[26] = Pos3 + XY2Pos[0,20]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-15,20]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-30,20]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-45,20]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-60,20]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[60,60]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[45,60]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[30,60]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[15,60]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[0,60]
+Left Click ExtVar[26]
+delay(1)
+
+ExtVar[26] = Pos3 + XY2Pos[-15,60]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-30,60]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-45,60]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-60,60]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[60,-40]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[45,-40]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[30,-40]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[15,-40]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[0,-40]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-15,-40]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-30,-40]
+Left Click ExtVar[26]
+delay(1)
+
+ExtVar[26] = Pos3 + XY2Pos[-45,-40]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-60,-40]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[60,0]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[45,0]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[30,0]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[15,0]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[0,0]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-15,0]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-30,0]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-45,0]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-60,0]
+Left Click ExtVar[26]
+delay(1)
+
+ExtVar[26] = Pos3 + XY2Pos[60,40]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[45,40]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[30,40]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[15,40]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[0,40]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-15,40]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-30,40]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-45,40]
+Left Click ExtVar[26]
+ExtVar[26] = Pos3 + XY2Pos[-60,40]
+Left Click ExtVar[26]
+End Repeat
+jump worke
+
+
+
+
+
+Stop
+
+//聖皇公用程序: 等待 SHIFT 鍵 20020924
+//程序解說: 等待按下鍵盤的 SHIFT 鍵才繼續進行程式。
+//使用方法: Call RKAIDRShift
+RKAIDRShift:
+delay(200)
+KeyString "\n\n"
+delay(200)
+KeyString "\n\n"
+KeyString "^o^ please enter shift key to start work"
+While Waitkey != 16
+Wend
+keypress(27)
+keypress(27)
+KeyString "Okay!\n\n"
+Return
+
+//-------------------------重新登入程序開始-----------------
+//使用ExtVar[48]當除錯器
+//使用方法 CALL RELOAD
+RELOAD:
+KeyString "\n\n"
+Delay(100)
+KeyString "test1.0\n\n"
+Delay(100)
+KeyString "test1.0\n\n"
+Delay(100)
+KeyPress(27)
+Delay(100)
+KeyPress(27)
+Delay(100)
+KeyPress(16)
+Delay(100)
+KeyPress(16)
+ExtVar[48] = 0
+//-------------------------案磁碟片-----------------
+step0:
+Delay(500)
+MouseMove 38011540
+Delay(500)
+Left Click 38011540
+
+Delay(500)
+
+    if color[18874815] = 4874611 && color[18743614] = 4874619 && ExtVar[48] < 50
+
+    jump step1
+   else
+	   If ExtVar[48] >= 50
+	    ExtVar[48] = 0
+	    jump step1
+	   end if
+   ExtVar[48] = ExtVar[48] + 1	
+   jump step0
+   end if
+    
+
+//-------------------------step1:選登出--------------------
+
+step1:
+MouseMove 15991203
+Delay(500)
+Left Click 15991203
+Delay(500)
+//-------
+    if color[11665713 ] = 6524589  && color[8585646 ] = 1582129 && ExtVar[48] < 50
+    jump step2
+    
+    else
+	    If ExtVar[48] >= 50
+	    ExtVar[48] = 0
+	    jump step2
+	    end if
+    ExtVar[48] = ExtVar[48] + 1	
+    jump step1
+    end if
+//-------------------------step2:選登出-press確定------------------------
+
+step2:
+
+Delay(500)
+MouseMove 7537137
+Delay(500)
+Left Click 7537137
+Delay(500)
+
+step21:
+//-------ckeck
+    if color[4326082 ] = 3225666 && color[22872247 ] = 2056 && ExtVar[48] < 50
+    jump step3
+    
+   else
+	    If ExtVar[48] >= 50
+	    ExtVar[48] = 0
+	    jump step3
+	    end if
+   ExtVar[48] = ExtVar[48] + 1	
+   jump step21
+   Delay(2000)
+   end if
+//-------------------------step3:回龍族選單+keypress------------------
+step3:
+//-----選1.國內   2.國外
+Delay(1500)
+MouseMove 18678215
+Delay(500)
+Left Click 18678215
+
+//-----打密碼
+delay(3000)
+KeyString "1"
+delay(300)
+KeyString "9"
+delay(300)
+KeyString "9"
+delay(300)
+KeyString "2"
+delay(300)
+KeyString "1"
+delay(300)
+KeyString "1"
+delay(300)
+KeyString "3"
+delay(300)
+KeyString "0"
+delay(300)
+//-----press enter!
+        delay(500)
+	MouseMove 27394452
+        delay(500)
+Left Click 27394452
+Left Click 27394438
+
+delay(300)
+//-------ckeck password correct or not
+while color[ 7405880 ] != 2698281 && ExtVar[48] < 50
+        delay(3000)
+   ExtVar[48] = ExtVar[48] + 1	
+//-------錯誤
+   while color[11076076 ] = 5922171  && ExtVar[48] < 50
+//-------案確定
+   ExtVar[48] = ExtVar[48] + 1	
+        delay(500)
+	MouseMove 7406066
+        delay(500)
+	Left Click 7406066
+        delay(500)
+	MouseMove 7143932
+        delay(500)
+	Left Click 7143932
+        delay(500)
+//-------案相關資料
+	MouseMove 2698281
+        delay(500)
+	Left Click 2170913
+        delay(3000)
+//-------案掉相關資料進入登入畫面
+	MouseMove 2228263
+        delay(1500)
+	Left Click 2228263
+        delay(1500)
+	MouseMove 3212029
+        delay(1500)
+	Left Click3212029
+        delay(1500)
+	    If ExtVar[48] >= 50
+	    ExtVar[48] = 0
+	    jump step4
+	    end if
+	jump step3     
+   wend
+	    If ExtVar[48] >= 50
+	    ExtVar[48] = 0
+	    jump step4
+	    end if
+wend
+     jump step4 
+//-------------------------step4:選角+確定登入
+step4:
+//--------選角
+        delay(1500)
+	MouseMove 23986840
+        delay(1500)
+
+                Left DbClick  23986840
+                Left DbClick  23986840
+        delay(1500)
+step42:
+//--------確認進入城市選擇視窗
+if color[31195885 ] = 10274766 && color[2163456 ] = 10273734 && ExtVar[48] < 50
+	jump step5
+else 
+	    If ExtVar[48] >= 50
+	    ExtVar[48] = 0
+	    jump step5
+	    end if
+        ExtVar[48] = ExtVar[48] + 1	
+	delay(1500)
+	jump step42
+end if
+
+
+
+//-------------------------step5:案最近離線
+
+step5:
+       delay(500)
+	MouseMove 35914316
+       delay(500)
+	Left Click 38142648
+
+     
+       delay(500)
+
+//-----是否進入登入讀取畫面  
+step52:
+if color[30343830 ] = 1590602 && color[4456547 ] = 2183514 && ExtVar[48] < 50
+	delay (5000)
+	    If ExtVar[48] >= 50
+	    ExtVar[48] = 0
+	    jump step5
+	    end if
+        ExtVar[48] = ExtVar[48] + 1
+//-------出現連線中斷↓	↓↓ 跳到step3重來
+	while color[11076076 ] = 5922171  && ExtVar[48] < 50
+//-------案確定
+   ExtVar[48] = ExtVar[48] + 1	
+        delay(500)
+	MouseMove 7406066
+        delay(500)
+	Left Click 7406066
+        delay(500)
+	MouseMove 7143932
+        delay(500)
+	Left Click 7143932
+        delay(500)
+//-------案相關資料
+	MouseMove 2698281
+        delay(500)
+	Left Click 2170913
+        delay(3000)
+//-------案掉相關資料進入登入畫面
+	MouseMove 2228263
+        delay(1500)
+	Left Click 2228263
+        delay(1500)
+	MouseMove 3212029
+        delay(1500)
+	Left Click3212029
+        delay(1500)
+	    If ExtVar[48] >= 50
+	    ExtVar[48] = 0
+	    jump step4
+	    end if
+	jump step3     
+   wend
+
+
+
+	jump step52
+end if
+delay (2000)	
+
+//-----自動重新登入程序結束
+KeyString "\n\n"
+Delay(1500)
+KeyString "successful\n\n"
+Delay(1500)
+KeyString "successful\n\n"
+Delay(1500)
+return

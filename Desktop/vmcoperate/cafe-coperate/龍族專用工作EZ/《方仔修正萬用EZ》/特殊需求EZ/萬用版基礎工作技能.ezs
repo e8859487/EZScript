@@ -1,0 +1,26 @@
+[variable]
+var1=5398907
+var2=
+var3=
+var4=
+var5=
+var6=
+var7=
+var8=
+pos1=16843091
+pos2=
+pos3=
+pos4=
+pos5=
+pos6=
+pos7=
+pos8=
+[script]
+//pos1 技能施放位置
+//f5設成工作技能
+//物品欄1放食物
+work:
+KeyPress(116)
+Left Down pos1
+Delay(2500)
+jump work

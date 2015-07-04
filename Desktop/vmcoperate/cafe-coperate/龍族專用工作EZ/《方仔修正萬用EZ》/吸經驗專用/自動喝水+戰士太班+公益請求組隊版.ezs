@@ -1,0 +1,132 @@
+[variable]
+var1=3223708
+var2=1054744
+var3=
+var4=-1
+var5=200
+var6=200
+var7=50
+var8=50
+pos1=37617696
+pos2=31064813
+pos3=
+pos4=35389481
+pos5=
+pos6=
+pos7=
+pos8=
+[script]
+//小方改編版超強 自動喝水+戰士太班+公益請求組隊版
+//
+//自動喝水加泰班 泰班設F2
+//藥水箱放第二格
+//施放泰班時間間隔  
+//pos1 生命低於pos1 喝水
+//pos2 泰班施法位置
+
+//↓↓↓↓泰班施展時間間隔↓↓↓↓↓
+
+var7=50
+
+//↓↓↓↓喊話時間間隔↓↓↓↓↓
+
+var6=200
+
+
+//---------------以下別鳥他-------------------
+
+
+
+
+var8=var7
+var5=var6
+Delay(500)
+KeyString "\n"
+KeyString "\n"
+Delay(100)
+KeyString "\n"
+Delay(100)
+KeyString "/TAKEON\n"
+Delay(100)
+KeyString "/shifton\n"
+KeyString "START!!"
+Delay(500)
+KeyPress(27)
+Delay(50)
+KeyPress(113)
+KeyPress(113)
+KeyPress(113)
+Delay(800)
+        repeat 5
+         right Down pos2
+         Delay(100)
+         right Up pos2
+         Delay(100)
+        end repeat
+
+
+
+Var1=Color[Pos1]
+main:
+
+       If Color[Pos1]!=Var1
+            
+           KeyPress(50)
+            delay(500)
+
+        End If
+
+var8=var8-1
+       if(var8<=0)
+         Delay(100)
+           repeat 3
+            right Down pos2
+           Delay(100)
+           right Up pos2
+           Delay(100)
+          end repeat
+         var8=var7
+	end if	
+
+var5=var5-1
+       if(var5<=0)
+         Delay(100)
+             If Color[35455532] = 4358821 && Color[35455537] = 4358821
+                call Zero
+            end if
+		KeyString "\n\n"
+		Delay(100)
+		MouseMove 524296
+		Echo "請優先組旁邊吸趴,低等的同仁(me) 多更新組隊名單 打手不一定要互組~ +U+ U  \n"
+                                //Echo " 吸趴的請站100,130左右 (  )  \n"22
+                               // 請各位大大組我  小小動作 可以讓您安全無慮   彼此互助~謝謝^O^  
+		Delay(100)
+		KeyString "\n\n"
+		Delay(100)
+		keypress(27)
+         var5=var6
+	end if
+
+jump main
+
+
+Zero:
+     
+   
+    If Color[35455532] = 4358821 && Color[35455537] = 4358821
+         KeyPress(27)
+             delay(500)
+        KeyPress(27)
+            delay(500)
+         KeyPress(69)
+            delay(500)
+         Left Click 3736191
+            delay(500)
+         Left Click 3736191
+            delay(500)
+         KeyPress(27)
+             delay(500)
+        KeyPress(27)
+            delay(500)
+    End If
+return

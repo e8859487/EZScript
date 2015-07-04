@@ -1,0 +1,126 @@
+[variable]
+var1=5399948
+var2=6517124
+var3=
+var4=
+var5=2170004
+var6=
+var7=
+var8=
+pos1=17236364
+pos2=17236364
+pos3=
+pos4=
+pos5=37355560
+pos6=
+pos7=
+pos8=
+[script]
+[script]
+////小方改編版超強打圖模組-技師版
+//pos1 補血與排為施放對象
+//pos2 自己    (不用設)
+//f2 聖力恢復 F3 祈禱 F6牌為 f8補體
+//藥水湘放第二格
+//f4 神聖治療&神蹟
+
+KeyString "\n" 
+MouseMove 524296 
+Echo "/tradeoff" 
+delay(500) 
+KeyString "\n" 
+
+KeyString "\n" 
+MouseMove 524296 
+Echo "/effectoff" 
+delay(500) 
+KeyString "\n"
+//----------------------------------
+WORK:
+call prayrestore
+call protection
+call restore
+call plus
+call restoreME
+JUMP WORK
+//----------------------------------
+
+
+restoreME:
+If Color[Pos5]!=Var5
+KeyPress(50)
+Delay(100)
+End If
+return
+
+
+
+//聖力回覆
+prayrestore:
+call restoreME
+keypress(f2)
+Delay(200) 
+keypress(f2)
+MouseMove pos2
+Delay(3000) 
+Repeat 5
+Right Down pos2
+Delay(50) 
+Right Up pos2
+end repeat
+Delay(4000) 
+
+return
+
+//祈禱
+plus:
+
+keypress(f3)
+Delay(200) 
+keypress(f3)
+MouseMove pos1
+Delay(2000) 
+Repeat 5
+Right Down pos2
+Delay(50) 
+Right Up pos2
+end repeat
+Delay(4000) 
+return
+
+//牌為
+protection: 
+call restoreME
+keypress(f6)
+Delay(200) 
+keypress(f6)
+MouseMove pos1
+Delay(2000) 
+Repeat 5
+Right Down pos2
+Delay(50) 
+Right Up pos2
+end repeat
+Delay(4000) 
+return
+
+//單體補血
+restore:
+REPEAT 5
+
+
+
+call restoreME
+keypress(f4)
+Delay(200) 
+keypress(f4)
+MouseMove pos1
+Delay(3000) 
+Repeat 5
+Right Down pos2
+Delay(50) 
+Right Up pos2
+end repeat
+Delay(3700) 
+END REPEAT 
+return

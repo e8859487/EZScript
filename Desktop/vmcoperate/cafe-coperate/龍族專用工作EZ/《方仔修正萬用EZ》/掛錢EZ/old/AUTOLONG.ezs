@@ -1,0 +1,71 @@
+[variable]
+var1=4875619
+var2=
+var3=
+var4=
+var5=
+var6=
+var7=
+var8=
+pos1=7537137
+pos2=7012861
+pos3=7340540
+pos4=37552775
+pos5=
+pos6=
+pos7=
+pos8=
+[script]
+
+KeyString "test1.0\n\n"
+Delay(500)
+KeyString "test1.0\n\n"
+Delay(500)
+KeyPress(27)
+Delay(500)
+KeyPress(27)
+Delay(500)
+KeyPress(16)
+Delay(500)
+KeyPress(16)
+
+//-------------------------案磁碟片-----------------
+step0:
+Delay(500)
+MouseMove 38011540
+Delay(500)
+Left Click 38011540
+Left Click 38339212
+Left Click 37618310
+Left Click 37552775
+Delay(500)
+
+    if color[18874815] = 4874611 && color[18743614] = 4874619 
+    jump step1
+   else
+   jump step0
+   end if
+//選登出
+step1:
+MouseMove 15991203
+Delay(500)
+Left Click 15991203
+Left Click 15991170
+Left Click 15991156
+
+    if color[11665713 ] = 6524589  && color[8585646 ] = 1582129
+    jump step2
+    
+   else
+   jump step1
+   end if
+//選登出-確定
+step2:
+Delay(500)
+MouseMove 7537137
+Left Click 7537137
+Left Click 7012861
+Left Click 7340540
+Delay(500)
+
+

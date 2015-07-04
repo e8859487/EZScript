@@ -1,0 +1,38 @@
+[variable]
+var1=3230026
+var2=
+var3=
+var4=
+var5=7043476
+var6=
+var7=
+var8=
+pos1=8060950
+pos2=16252957
+pos3=21889044
+pos4=
+pos5=7078656
+pos6=17171210
+pos7=25756416
+pos8=
+[script]
+main:
+//jump main2
+KeyDown(32)
+
+Left Click 7078656
+delay(200)
+Left Click 17171210
+delay(200)
+Left Click 25756416
+delay(200)
+jump main
+
+main2:
+Left Click 8060950
+delay(200)
+Left Click 16252957
+delay(200)
+Left Click 21889044
+delay(200)
+jump main2

@@ -1,0 +1,628 @@
+[variable]
+var1=1588323
+var2=1054744
+var3=1054744
+var4=
+var5=1
+var6=1
+var7=1376377059
+var8=0
+pos1=20185585
+pos2=12386771
+pos3=12386771
+pos4=8782074
+pos5=
+pos6=
+pos7=
+pos8=
+[script]
+ExtVar[8]=0
+//名稱
+// 印製版全自動做裝程序 v2+35
+
+//說明
+
+// 包包清空 保留 400萬至500萬龍幣
+// 換上合適工具
+// Pos1 老闆
+// Pos2 衝成功率物品
+// Pos3 做特武物品
+// Pos4 餐廳老闆(製造閃耀買魚)
+//
+
+//更新
+// 支援製造閃耀
+// 更新購買程序 不會有不購買物品情況
+// 按鍵程序 有防止按錯非數字鍵
+// 防洗頻
+
+//注意
+// 製造閃耀成功率為93%   
+// 如剛成為蠟燭gm 如果成功率有機會是94% 在開始ezs前 請手動製造一次閃耀使成功率歸0
+//
+// 作者: 印 
+// 本程序大陪份是原創的 煩請通知如果有作者使用本原創程序地方
+//原創程序
+// 按鍵程序 - 按下數字鍵設定變數 , 更新有防止按錯非數字鍵
+// 購入料理部份 - 使用變數來控制購買衝成功率/特武材料 及 新增閃耀 材料支援
+// 防洗頻 - 如果走位 本程序會漸漸減慢叫老闆時間
+
+//參考程序
+// 購入料理部份  聖皇騎士團 ezs
+// 選擇特武屬性部份  (遺失作者,作品名稱)
+//
+//翻頁設定
+// 衝成功率物品與特武物品相距頁數
+// 衝成功率物品必須同頁或比特武物品較後的頁數
+//  ExtVar[9] = 0 (同頁) ,ExtVar[9] = 1-9 向上翻頁數目
+ExtVar[9] = 0
+
+//製作閃耀或其他特武
+// ExtVar[13] = 0 製作閃耀
+// (閃耀屬性請在開始ezs 後 使用按鍵程序設定)
+// ExtVar[13] = 1 製作特武
+ExtVar[13] = 1 
+temp1:
+//●█●●●█●●█●●█●●█●
+//●█●↓如使用編號HTML版↓●█●
+//●█●↓請刪除以下程序↓↓●█●
+//●█●↓↓↓↓↓↓↓↓↓↓●█●
+//商店中買入材料的位置 - 頁數(1~2位).行數(1位).列數(1位).數量(1位)
+//成功率物品
+ExtVar[20]=2151
+ExtVar[21]=2232
+ExtVar[22]=0000
+//數目
+ExtVar[24]=6
+//設定 特武物品跟 成功率物品 材料一樣的  請設定=0  如果不一樣 設定=1
+ExtVar[23]=0
+//商店中買入材料的位置 - 頁數(1~2位).行數(1位).列數(1位).數量(1位)
+//特武物品
+ExtVar[25]=5344
+ExtVar[26]=5332
+ExtVar[27]=0000
+//數目
+ExtVar[29]=3
+//●█●↑如使用編號HTML版↑●█●
+//●█●↑請刪除程序到此↑↑●█●
+//○○○       注意         ○○○
+///特武屬性分類 
+//1.攻擊,大奪等類 2.遠攻,小奪等類 3.AC迴避大小反等類
+//4.物理攻擊加特殊屬性等類 5.加血 血裝等類 6.回魔力魔縮等類 
+//7.回聖力魔縮等類  8.魔增 法師等類 9.魔增 祭司 等類
+//10.魔法輔助增加破魔等類 11.戰士能力增加等類 12.弓盜能力增加等類
+//13.法師能力增加等類 14.祭司能力增加等類 15.魔抗裝(1)等類
+//16.魔抗裝(2)等類 17.魔抗裝(3)等類
+ExtVar[7]=1
+//======================分隔線======================
+return
+//======================分隔線======================
+
+
+ExtVar[30] =0 
+ExtVar[31] =0 
+ExtVar[32] =0 
+ExtVar[33] =0 
+ExtVar[34] =0
+ExtVar[35] =0
+ExtVar[36] =0 
+ExtVar[42] =0
+ExtVar[19] =0
+ExtVar[13] = 1
+Var5 = 0
+Var6 =1
+Var8 = 0
+var7=time
+KeyString "\n\n"
+Delay(500)
+KeyString "/tradeoff"
+KeyString "\n"
+Delay(10)
+KeyString "/effectoff"
+KeyString "\n"
+Delay(10)
+//用前設定
+KeyString "\n\n"
+KeyUp(16)
+MouseMove 524296 
+
+KeyString "\n\n"
+
+if Color[XY2Pos[4,420]]=13378 || Color[XY2Pos[17,420]]=13378 || Color[XY2Pos[6,420]]=13378
+   MouseMove XY2Pos[10,427]
+   LClick XY2Pos[10,427]
+     Delay(200)
+End if
+if Color[XY2Pos[4,445]]=13378 || Color[XY2Pos[17,445]]=13378 || Color[XY2Pos[6,445]]]=13378
+   MouseMove XY2Pos[10,452]
+   LClick XY2Pos[10,452]
+End if 
+MouseMove 524296
+KeyUp(16)
+KeyPress(16)
+ExtVar[8] = 10
+
+If ExtVar[13] = 0 
+ExtVar[19]=1
+Var8=10
+Jump pageset4
+End If
+if ExtVar[13] = 1
+        Call temp1
+        ExtVar[19] = 0
+        Var8 = 0
+        var7 = time
+        Jump boss
+End If
+
+boss:
+KeyString "\n\n"
+KeyUp(16)
+MouseMove 524296 
+RClick 524296 
+Echo "bossbossboss"
+If ExtVar[19]=1
+MouseMove Pos4
+Else 
+MouseMove Pos1
+End If
+Delay(500)
+KeyString "\n\n"
+KeyString "\n\n"
+Delay(500)
+ExtVar[34] = 0
+        While Color[3408418] != 0
+        KeyUp(16)
+        MouseMove 524296 
+        Echo "bossbossbossss"
+        If ExtVar[19]=1
+        MouseMove Pos4
+        Else 
+        MouseMove Pos1
+        End If
+                ExtVar[34] = ExtVar[34] +1
+        Delay(1000)
+        KeyString "\n"
+        KeyString "\n"
+        Delay(200)
+        Wend
+         ExtVar[34] = 0
+ExtVar[34] = 0
+        If ExtVar[19] = 1
+        KeyDown(16)
+        MouseMove XY2Pos[600,169]
+        LClick XY2Pos[600,169]
+        While (Color[3408418] = 0 || Color[1769964] != 0 || Color[3211856] != 0)
+        ExtVar[34] =  ExtVar[34]+ 1
+        if ExtVar[34] = 10
+        Jump boss
+        End If
+        KeyDown(16)
+        MouseMove XY2Pos[600,169]
+        LClick XY2Pos[600,169]
+        Delay(200)
+        Wend
+        SellAll 1 1
+        LClick XY2Pos[626,289]
+        Delay(500)
+        End If
+ExtVar[34] = 0
+KeyDown(16)
+LClick 10617356
+Delay(500)
+        While (Color[3408418] = 0 || Color[1769964] != 0 || Color[3211856] != 0)
+        ExtVar[34] =  ExtVar[34]+ 1
+        if ExtVar[34] = 10
+        Jump boss
+        End If
+        LClick 10617356
+        KeyDown(16)
+        Delay(200)
+        Wend
+KeyDown(16)
+ExtVar[42] =1
+If Var8=10
+        If ExtVar[19]= 1
+
+                ExtVar[20]=2333
+                ExtVar[21]=2326
+                ExtVar[22]=0000 
+
+                ExtVar[24]=3 
+                ExtVar[23]=0
+        End If
+        If ExtVar[19] = 0
+                ExtVar[20]=5212
+                ExtVar[21]=0000
+                ExtVar[22]=0000 
+
+                ExtVar[24]=13 
+                ExtVar[23]=0
+        End If
+End if
+        If ExtVar[31] = 0 
+                        If ExtVar[23] = 1
+                        ExtVar[30] =0
+                        ExtVar[32] = 5
+                        Call buyitem
+                        End If
+                ExtVar[30] = 0
+                ExtVar[32] = 0
+        Call buyitem
+                elseIf ExtVar[31] = 1 || ExtVar[23] = 0
+                ExtVar[30] = 0
+                ExtVar[32] = 0
+                Call buyitem
+                ExtVar[31] = 1
+                elseIf ExtVar[31] = 2 && ExtVar[23] = 1
+                ExtVar[30] = 0
+                ExtVar[32] = 5
+                Call buyitem
+        End If
+LClick 7340533
+call exitboss
+KeyDown(16)
+If Var8 = 10
+                If ExtVar[19] = 1
+                ExtVar[19]=0
+                Jump Boss
+                else
+                Jump candle
+                End if
+        Else
+        Jump make
+End If
+
+return
+
+exitboss:
+If Color[1769964] = 0 && Color[3211856] = 0
+  KeyDown(16)
+  LClick 7340533 
+  Delay(250)
+  While Color[1769964] = 0 && Color[3211856] = 0
+    LClick 19071601
+    Delay(250)
+  Wend
+
+End If
+If Color[3408418] = 0
+  KeyDown(16)
+    LClick 18547250
+    Delay(250)
+  While Color[3408418] = 0 
+    LClick 18547250
+    Delay(250)
+  Wend
+Else
+  KeyDown(16)
+End If
+KeyDown(16)
+return
+
+buyitem:
+While         ExtVar[30] <= 2
+        If ExtVar[42] - (ExtVar[20 + ExtVar[30] + ExtVar[32]] / 1000) > 0
+                Repeat ExtVar[42] - ((ExtVar[20 + ExtVar[30] + ExtVar[32]] - (ExtVar[20 + ExtVar[30] + ExtVar[32]] % 1000)) / 1000)
+                MouseMove  4719229
+                LClick 4719229
+                Delay(50)
+                End Repeat
+        ExtVar[42] = ExtVar[42] - (ExtVar[42] - ((ExtVar[20 + ExtVar[30] + ExtVar[32]] - (ExtVar[20 + ExtVar[30] + ExtVar[32]] % 1000)) / 1000))
+                elseif ExtVar[42] - (ExtVar[20 + ExtVar[30] + ExtVar[32]] / 1000) < 0
+
+                        Repeat ((ExtVar[20 + ExtVar[30] + ExtVar[32]] - (ExtVar[20 + ExtVar[30] + ExtVar[32]] % 1000)) / 1000) - ExtVar[42]
+                        MouseMove  9372285
+                        LClick 9372285
+                        Delay(50)
+                        End Repeat
+
+                ExtVar[42] = ExtVar[42] + (((ExtVar[20 + ExtVar[30] + ExtVar[32]] - (ExtVar[20 + ExtVar[30] + ExtVar[32]] % 1000)) / 1000) - ExtVar[42])
+        End If
+
+        MouseMove XY2Pos[430 + 35 * ((ExtVar[20 + ExtVar[30] + ExtVar[32]] / 10) % 10), 35 + 35 * ((ExtVar[20 + ExtVar[30] + ExtVar[32]] / 100) % 10)]
+        LClick  XY2Pos[430 + 35 * ((ExtVar[20 + ExtVar[30] + ExtVar[32]] / 10) % 10), 35 + 35 * ((ExtVar[20 + ExtVar[30] + ExtVar[32]] / 100) % 10)]
+        Delay(100)
+                If Var5=0
+                Delay (250)
+                End If
+                if Var8 = 10
+                Repeat ExtVar[20 + ExtVar[30]+ ExtVar[32]] % 10 * ExtVar[24 + ExtVar[32]]
+                Left Click 19071443
+                Delay(50)
+                End Repeat
+                End If
+                If Var8 != 10
+                Repeat ExtVar[20 + ExtVar[30]+ ExtVar[32]] % 10 * ExtVar[24 + ExtVar[32]]
+                LClick 19071443
+                End Repeat
+                End If
+
+        if ExtVar[20 + ExtVar[30] + ExtVar[32] +Var6] = 0
+        ExtVar[30] = 10
+        End If
+
+        ExtVar[30]= ExtVar[30]+1
+Wend
+
+Return
+
+
+
+make:
+ExtVar[34] = 0
+KeyDown(16)
+LClick 28050186
+Delay(250)
+RClick 28050186
+While (Color[5636379] != 0 || Color[5636420] != 0 || Color[5636580] != 0 || Color[22020392] != 0) 
+  call exitboss
+  LClick 28050186
+  Delay(500)
+  RClick 28050186
+Wend
+
+If ExtVar[35] = 1
+        MouseMove Pos3
+        LClick Pos3
+        Delay(200)
+                If color[21168474] != 15723503 //100%
+                ExtVar[35] = 0
+                Var5=Var5+1
+                ExtVar[35] = 0
+                        If Var5 = 15
+                        MouseMove 24117730
+                        LClick 24117730
+                        KeyString "\n\n"
+                        KeyUp(16)
+                        MouseMove 524296 
+                        Echo "花費時間$[(time-var7)/60%60]分$[(time-var7)%60]秒完成"
+                        KeyDown(16)
+                        Delay(1000)
+                        KeyString "\n"
+                        KeyString "\n"
+                        KeyPress(16)
+                        KeyString "/tradeon"
+                        KeyString "\n"
+                        KeyString "\n"
+                        Delay(1000)
+                        MouseMove 524296 
+                        Echo "bossobssobssssboss"
+                        stop
+                        end if
+
+                        If ExtVar[9] != 0
+
+                        Repeat ExtVar[9]
+                        MouseMove 13435371
+                        LClick 13435371
+                        Delay(50)
+                        End Repeat
+                        End If
+
+                End If
+End If
+If ExtVar[35] = 0
+        MouseMove Pos2
+        LClick Pos2
+        Delay(200)
+        If color[21168474] != 15723503 //100%
+                MouseMove 23200150
+                LClick 23200150
+                Delay(10)
+                MouseMove 24183107
+                LClick 24183107
+                Delay(250)
+                        While (Color[XY2Pos[320,352]]=0 || Color[XY2Pos[340,352]]=0 || Color[XY2Pos[305,360]]=0 || Color[XY2Pos[305,352]]=0) && (Color[XY2Pos[462,352]]=0 || Color[XY2Pos[490,352]]=0 || Color[XY2Pos[459.373]]=0 || Color[XY2Pos[494,373]]=0)
+                        ExtVar[34] = ExtVar[34]+1
+                        MouseMove 24183107
+                        LClick 24183107
+                        Delay(100)     
+                                if ExtVar[34] = 3
+                                MouseMove 24117730
+                                LClick 24117730
+                                ExtVar[31]=1
+                                ExtVar[34] = 0
+                                jump boss
+                        End if
+                Wend
+End if
+End If
+
+If color[21168474] = 15723503
+                If ExtVar[35] = 0
+                        If ExtVar[9] != 0
+                                Repeat ExtVar[9]
+                                MouseMove 13435343
+                                LClick 13435343
+                                Delay(50)
+                                End Repeat
+                        End If
+                ExtVar[35] = 1
+                End If
+        MouseMove Pos3
+        LClick Pos3
+        Delay(50)
+        MouseMove 23200150
+        LClick 23200150
+        Delay(50)
+        MouseMove XY2Pos[468,322]
+        LClick XY2Pos[468,322]
+        Delay(250)
+        MouseMove XY2Pos[400,300]
+                While (Color[XY2Pos[320,352]]=0 || Color[XY2Pos[340,352]]=0 || Color[XY2Pos[305,360]]=0 || Color[XY2Pos[305,352]]=0) && (Color[XY2Pos[462,352]]=0 || Color[XY2Pos[490,352]]=0 || Color[XY2Pos[459.373]]=0 || Color[XY2Pos[494,373]]=0)
+                ExtVar[34]  = ExtVar[34] +1
+                MouseMove XY2Pos[468,322]
+                LClick XY2Pos[468,322]
+                Delay(250)
+     if ExtVar[34] = 3
+     MouseMove 24117730
+     LClick 24117730
+     ExtVar[31]=2
+ExtVar[34]=0
+     jump boss
+     End if
+     Wend
+
+if ExtVar[7] > 5
+     Repeat ExtVar[7]-5
+     MouseMove 15466872
+     LClick 15466872
+     Delay(50)
+     End Repeat
+   MouseMove XY2Pos[260,215]
+LClick  XY2Pos[260,215]
+Else
+   LClick XY2Pos[260,65+30*ExtVar[7]]
+End if
+   MouseMove 20840769
+     LClick 20840769
+     Delay(1000)
+
+End If
+
+Jump make
+Return
+
+
+
+
+
+
+
+candle:
+
+ExtVar[34] = 0
+KeyDown(16)
+Delay(250)
+LClick 28050186
+Delay(250)
+RClick 28050186
+While (Color[5636379] != 0 || Color[5636420] != 0 || Color[5636580] != 0 || Color[22020392] != 0) 
+  call exitboss
+  LClick 28050186
+  Delay(500)
+  RClick 28050186
+Wend
+RClick 28050186
+MouseMove Pos3
+LClick Pos3
+Delay (100)
+If Color[XY2Pos[351,321]] = 15723503 &&  Color[XY2Pos[353,321]] = 15723503 && Color[XY2Pos[351,326]] = 15723503 && Color[XY2Pos[359,325]] = 15723503 && Color[XY2Pos[356,328]] = 15723503 && Color[XY2Pos[350,326]] != 15723503 && Color[XY2Pos[357,324]] != 15723503 && Color[XY2Pos[351,321]] = 15723503
+
+                If ExtVar[35] = 0
+                Var5 = Var5+1
+                End If
+                ExtVar[35]= 1
+        MouseMove 23200150
+        LClick 23200150
+        Delay(50)
+        MouseMove XY2Pos[468,322]
+        LClick XY2Pos[468,322]
+        Delay(250)
+        MouseMove XY2Pos[400,300]
+
+                While (Color[XY2Pos[320,352]]=0 || Color[XY2Pos[340,352]]=0 || Color[XY2Pos[305,360]]=0 || Color[XY2Pos[305,352]]=0) && (Color[XY2Pos[462,352]]=0 || Color[XY2Pos[490,352]]=0 || Color[XY2Pos[459.373]]=0 || Color[XY2Pos[494,373]]=0)
+                ExtVar[34]  = ExtVar[34] +1
+                MouseMove XY2Pos[468,322]
+                LClick XY2Pos[468,322]
+                Delay(500)
+     if ExtVar[34] = 3
+     MouseMove 24117730
+     LClick 24117730
+                        ExtVar[19] = 1
+                        ExtVar[31] = 1
+                        Jump Boss
+     End if
+     Wend
+        MouseMove XY2Pos[260,65+30*ExtVar[7]]
+        LClick XY2Pos[260,65+30*ExtVar[7]]
+        Delay(50)
+        MouseMove XY2Pos[323,320]
+        LClick XY2Pos[323,320]
+Else
+                        If Var5 = 15
+                        MouseMove 24117730
+                        LClick 24117730
+                        KeyString "\n\n"
+                        KeyUp(16)
+                        MouseMove 524296 
+                        Echo "bossbossssbossobosss"
+                        KeyDown(16)
+                        Delay(500)
+                        KeyString "\n"
+                        KeyString "\n"
+                        KeyPress(16)
+                        KeyString "/tradeon"
+                        KeyString "\n"
+                        KeyString "\n"
+                        Delay(500)
+                        MouseMove 524296 
+                        Echo "bossobssobboss"
+                        stop
+                        end if
+        ExtVar[35] = 0
+        MouseMove Pos2
+        LClick Pos2
+        Delay (50)
+        MouseMove XY2Pos[404,355]
+        LClick XY2Pos[404,355]
+        Delay(50)
+        MouseMove XY2Pos[322,370]
+        LClick XY2Pos[322,370]
+        Delay(100)
+                While (Color[XY2Pos[320,352]]=0 || Color[XY2Pos[340,352]]=0 || Color[XY2Pos[305,360]]=0 || Color[XY2Pos[305,352]]=0) && (Color[XY2Pos[462,352]]=0 || Color[XY2Pos[490,352]]=0 || Color[XY2Pos[459.373]]=0 || Color[XY2Pos[494,373]]=0)
+                ExtVar[34] = ExtVar[34]+1
+                MouseMove XY2Pos[322,370]
+                LClick XY2Pos[322,370]
+                Delay(100)
+                        if ExtVar[34] = 3
+                        MouseMove 24117730
+                        LClick 24117730
+                        ExtVar[19] = 1
+                        ExtVar[31] = 1
+                        Jump Boss
+                        End if
+                Wend
+End if
+Jump candle
+Return
+
+stop
+pageset4:
+if                 ExtVar[8] != 11
+        KeyString "\n\n"
+        Echo "設定閃耀屬性 1ower Group 攻擊類別 2 Armor Group AC 物回類別"
+        KeyString "\n\n"
+        Delay(100)
+End If
+                While Waitkey >= 49 && Waitkey <= 50
+                ExtVar[7] = Waitkey - 48
+                if ExtVar[7] = 1
+                KeyString "\n\n"
+                MouseMove 524296 
+                Echo "==印製版==按鍵測試:你按的是$[extvar[7]]ower Group"
+                Delay(500)
+                KeyString "\n\n"
+                Delay(500)
+                var7 = time
+                Jump boss
+                End if
+                if ExtVar[7]= 2
+                KeyString "\n\n"
+                MouseMove 524296 
+                Echo "==印製版==按鍵測試:你按的是$[extvar[7]]:Armor Group"
+                KeyString "\n\n"
+                KeyString "\n"
+                Delay(500)
+                var7 = time
+                Jump boss
+                End if
+
+                Wend
+                If  ExtVar[7] != 1 || ExtVar[7] != 2
+                ExtVar[8] = 11
+                Jump pageset4
+                End If
+
+return

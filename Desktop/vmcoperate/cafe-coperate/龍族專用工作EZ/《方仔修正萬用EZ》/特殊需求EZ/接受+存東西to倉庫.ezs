@@ -1,0 +1,204 @@
+[variable]
+var1=7045772
+var2=2176049
+var3=
+var4=
+var5=1581122
+var6=
+var7=
+var8=
+pos1=22151803
+pos2=23527731
+pos3=23527731
+pos4=
+pos5=23134741
+pos6=
+pos7=
+pos8=
+[script]
+
+
+//pos5 : bank boss position
+
+////=====================================
+//20150624   0.1測試版
+// 自動接收交易、存物品近倉庫
+//=====================================
+
+
+Job:
+
+Call SetBattle
+call Command
+
+Repeat 2
+
+call Checker
+call Boss
+call Stock
+delay(250)
+keypress(27)
+keypress(27)
+delay(50)
+
+End repeat
+
+call Checker
+
+call  EndCommand
+
+stop
+
+jump Job
+
+
+Checker:
+ExtVar[8] = 0
+while ExtVar[8] < 3
+while color[25559433] != 6517115 &&  color[6488486] != 16776191
+    //等待交易視窗
+
+    delay(50)
+wend
+delay(50)
+LClick 22544824
+delay(50)
+
+while color[11534832] != 4351355 && color[11731396] != 5400964
+    //案確定
+   delay(50)
+   
+wend
+//案確定
+  delay(50)
+   LClick 7864815
+KeyPress(32)
+    delay(50)
+ExtVar[8] = ExtVar[8]+1
+Wend
+
+Return
+
+
+
+
+
+
+Stock:
+  //14680586  第一格位置
+
+REPEAT 3
+ExtVar[4] = 14680586 
+//外回圈
+ExtVar[2] = 0
+ 
+
+while ExtVar[2] <3
+  
+  ExtVar[0] = ExtVar[4] 
+  LClick ExtVar[0]
+  LClick ExtVar[0]
+  ExtVar[0] = ExtVar[4] + XY2Pos[35,0]   
+  LClick ExtVar[0]
+  LClick ExtVar[0]
+   ExtVar[0] = ExtVar[4] + XY2Pos[70,0] 
+  LClick ExtVar[0]
+  LClick ExtVar[0]
+  ExtVar[0] = ExtVar[4] + XY2Pos[105,0] 
+  LClick ExtVar[0]
+  LClick ExtVar[0]
+  ExtVar[0] = ExtVar[4] + XY2Pos[140,0]    
+  LClick ExtVar[0]
+  LClick ExtVar[0]
+  ExtVar[0] = ExtVar[4] + XY2Pos[175,0]
+  LClick ExtVar[0]
+  LClick ExtVar[0]
+  ExtVar[0] = ExtVar[4] + XY2Pos[210,0] 
+  LClick ExtVar[0]
+  LClick ExtVar[0]
+  ExtVar[0] = ExtVar[4] + XY2Pos[245,0] 
+  LClick ExtVar[0]
+  LClick ExtVar[0]
+ExtVar[2] = ExtVar[2]  +1 
+ ExtVar[4] =  ExtVar[4] +  XY2Pos[0,35] 
+
+ 
+wend
+
+MouseMove 21889689
+DELAY(50)
+LClick 21889689
+delay (100)
+
+END REPEAT
+Return
+
+
+Boss:
+while color[2818585] != 5930372
+MouseMove pos5
+KeyDown(13)
+KeyUp(13)
+KeyString "Bank BOSS a0av"
+delay(20)
+KeyDown(13)
+KeyUp(13)
+Delay(200)
+ ExtVar[48]=Extvar[48]+1
+if Extvar[48]>50 
+Extvar[48]=0
+return
+end if
+wend
+
+MouseMove 10879492
+delay(150)
+LClick 10879492
+LClick 10879492
+delay(50)
+//移動到包包最頂頁
+delay(50)
+LClick 22151803
+LClick 22151803
+LClick 22151803
+Return
+ 
+Command:
+KeyDown(13)
+KeyUp(13)
+KeyDown(13)
+KeyUp(13)
+KeyString "/tradeon"
+KeyDown(13)
+KeyUp(13)
+KeyString "/shifton"
+KeyDown(13)
+KeyUp(13)
+
+Return
+
+EndCommand:
+KeyDown(13)
+KeyUp(13)
+KeyDown(13)
+KeyUp(13)
+KeyString "/shiftoff"
+KeyDown(13)
+KeyUp(13)
+KeyString "process end!!"
+
+Return
+
+
+//設換戰鬥狀態
+//使用方法: Call SetBattle
+SetBattle:
+While Color[36700855] != 0 || Color[37159613] != 0 && ExtVar[48] < 20
+ ExtVar[48] =  ExtVar[48] +1
+  keypress(27)
+  keypress(120)
+  Delay(1000)
+  LClick 36766401
+  Delay(150)  
+ Wend
+Return

@@ -1,0 +1,422 @@
+[variable]
+var1=7041461
+var2=11372114
+var3=11372122
+var4=16776191
+var5=3756403
+var6=3756403
+var7=5407331
+var8=4359845
+pos1=16056868
+pos2=34603793
+pos3=38077198
+pos4=26607874
+pos5=20971943
+pos6=15204648
+pos7=11403704
+pos8=34145014
+[script]
+KeyString "\n\n"
+Delay(200)
+//1 補血血量   3清零藥水
+//4 施放戰技位置
+//5 ,6,7怪物位置
+//
+
+//f4雙重 f5炙熱
+//---------start-------ExtVar0 存CP or Not  ExtVar1 計數器
+Delay(1)
+KeyString "\n"
+KeyString "\n"
+Delay(1)
+KeyString "\n"
+KeyString "/shifton\n"
+KeyString"\n
+Delay(1)
+KeyString "/tradeon\n"
+KeyString"\n"
+Delay(1)
+KeyString "/effectoff\n"
+KeyString"\n"
+ExtVar[0] = 0
+ExtVar[1] = 0
+//-----------一次性變數設定 1血 2cp上限 3cp下限  CP滿時設定
+//Var1=Color[Pos1]
+//Var2=Color[Pos2]
+//Var3=Color[Pos3]
+//Var4=Color[Pos4]
+//Var6=Color[Pos6]
+//Var7=Color[Pos7]
+
+call SetBattle
+Delay(16)
+                keypress(115)
+                keypress(115)
+                keypress(115)
+//-----------變數設定完畢 進入主程式
+
+
+start:
+    call SetBattle
+    
+     //檢查回血 和檢查清零 只能有一種有作用 
+//因為只能用一種  另一種請自行註解掉
+   // If Color[Pos1]!=Var1
+ //   KeyUp(16)
+  //  Call restore
+  //  End If
+     //檢查清零  
+    call Zero
+
+    KeyDown(16)
+    MouseMove pos5
+    Left Click pos5
+    Left DbClick pos5
+    Delay(1)
+    Left DbClick pos6
+    Left Click pos6
+    Delay(1)
+    Left DbClick pos7
+    Left Click pos7
+    Delay(1)
+    Left DbClick pos5
+    Left Click pos5
+    Delay(1)
+    Left DbClick pos6
+    Left Click pos6
+    Delay(1)
+    Left Click pos7
+    Delay(1)
+    Left Click pos7
+ 
+
+
+
+
+
+    if  extvar[1]=0  
+    Call check
+    end if
+    extvar[1]=extvar[1]-1
+Jump start
+
+//-----------------以下副程式
+
+
+
+check:
+//高於上界 放攻擊技能 改變狀態
+  if (Color[Pos2] = Var2 && extvar[1]=0 )		
+                keypress(9)
+	Delay(500)
+                keypress(9)
+	Delay(64)
+                keypress(9)
+	Delay(64)
+	keypress(115)
+	keypress(115)
+	keypress(115)
+MouseMove pos5
+Left Click pos5
+Left DbClick pos5
+Delay(1)
+Left DbClick pos6
+Left Click pos6
+Delay(1)
+Left DbClick pos7
+Left Click pos7
+Delay(1)
+Left DbClick pos5
+Left Click pos5
+Delay(1)
+Left DbClick pos6
+Left Click pos6
+Delay(1)
+Left Click pos7
+Delay(1)
+Left Click pos7
+	Delay(50)
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+	Delay(30)
+	ExtVar[0]=0
+	ExtVar[1]=10
+  end if
+//低於下界放回cp技能 改變狀態
+if (Color[Pos3] != Var3 && extvar[1]=0)
+	Delay(50)
+	keypress(116)
+	keypress(116)
+	keypress(116)
+MouseMove pos5
+Left Click pos5
+Left DbClick pos5
+Delay(1)
+Left DbClick pos6
+Left Click pos6
+Delay(1)
+Left DbClick pos7
+Left Click pos7
+Delay(1)
+Left DbClick pos5
+Left Click pos5
+Delay(1)
+Left DbClick pos6
+Left Click pos6
+Delay(1)
+Left Click pos7
+Delay(1)
+Left Click pos7
+	Delay(50)
+	MouseMove pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+	Delay(30)
+	ExtVar[0]=1
+	extvar[1]=68
+end if
+
+//放回cp技能
+if (Color[Pos2] != Var2 && ExtVar[0]=1 && extvar[1]=0)
+
+	Delay(50)
+	keypress(116)
+	keypress(116)
+	keypress(116)
+MouseMove pos5
+Left Click pos5
+Left DbClick pos5
+Delay(1)
+Left DbClick pos6
+Left Click pos6
+Delay(1)
+Left DbClick pos7
+Left Click pos7
+Delay(1)
+Left DbClick pos5
+Left Click pos5
+Delay(1)
+Left DbClick pos6
+Left Click pos6
+Delay(1)
+Left Click pos7
+Delay(1)
+Left Click pos7
+	Delay(50)
+	MouseMove pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+Right Down pos4
+Delay(50)
+Right Up pos4
+Delay(50)
+	Delay(50)
+//調整cp延遲時間
+	extvar[1]=68
+end if
+
+//放攻擊技能
+if (Color[Pos3] = Var3 && ExtVar[0]=0 && extvar[1]=0 )
+
+	Delay(50)
+	keypress(115)
+	keypress(115)
+	keypress(115)
+MouseMove pos5
+Left Click pos5
+Left DbClick pos5
+Delay(1)
+Left DbClick pos6
+Left Click pos6
+Delay(1)
+Left DbClick pos7
+Left Click pos7
+Delay(1)
+Left DbClick pos5
+Left Click pos5
+Delay(1)
+Left DbClick pos6
+Left Click pos6
+Delay(1)
+Left Click pos7
+Delay(1)
+Left Click pos7
+Left DbClick pos6
+Left Click pos6
+Delay(1)
+Left Click pos7
+Delay(1)
+Delay(1)
+Left DbClick pos7
+Left Click pos7
+Delay(1)
+Left DbClick pos5
+Left Click pos5
+Delay(1)
+Left DbClick pos6
+Left Click pos6
+Left Click pos7
+	Delay(50)
+	MouseMove pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+Right Down pos4
+Delay(50)
+Right Up pos4
+Delay(50)
+Right Down pos4
+Delay(50)
+Right Up pos4
+Delay(50)
+	Delay(50)
+//調整技能延遲時間
+	ExtVar[1]=10   
+
+end if
+return
+
+
+restore:
+KeyPress(50)
+Delay(100)
+return
+
+\\飲清零水
+Zero:
+    If Color[35455532] = 4358821 && Color[35455537] = 4358821
+    KeyString "\n\n"
+    Delay(500)
+    KeyString "Clear Exp Right now!Exp Over 75%"
+    Delay(500)
+
+    KeyPress(27)
+    KeyPress(27)
+    Delay(300)
+     KeyPress(51)
+    Delay(1000)
+    Delay(500)
+    KeyPress(27)
+    KeyPress(27)
+    End If
+Return
+
+
+//視窗防禦判斷
+//使用方法: Call Windef
+Windef:
+//物品交換取消 20030708
+If Color[26542115]=0 && Color[26280398]=0
+  LClick 24903930
+  Delay(500)
+  If Color[6553896]=0 && Color[11141592]=0
+    LClick 7340533
+    Delay(500)
+    If Color[328165]=0 && Color[22938397]=0
+      LClick 21955319
+      Delay(500)
+    End If
+  End If
+//交易失敗確定 20030708
+ElseIf Color[6553896]=0 && Color[11141592]=0
+  LClick 7340533
+  Delay(500)
+  If Color[328165]=0 && Color[22938397]=0
+    LClick 21955319
+    Delay(500)
+  End If
+//邊境參戰取消 20020606
+ElseIf Color[9175185]=0 && Color[29688458]=0
+  LClick 28181001
+//國戰開始確定 20020713
+ElseIf Color[9175179]=0 && Color[29033106]=0
+  LClick 27197995
+//國戰完成確定 20030713
+ElseIf Color[9175048]=0 && Color[28181270]=0
+  LClick 26214800
+//戰鬥技能確定 20021018
+ElseIf Color[10486027]=0 && Color[25297422]=0
+  LClick 26870157
+//郵件視窗離開 20030708
+ElseIf Color[328085]=0 && Color[31654681]=0
+  LClick 29885158
+End If
+Return
+
+設換戰鬥狀態
+//使用方法: Call SetBattle
+SetBattle:
+While Color[36700855] != 0 || Color[37159613] != 0
+  keypress(27)
+  keypress(120)
+  Delay(1000)
+  LClick 36766401
+  Delay(150)
+Wend
+Return
+
+

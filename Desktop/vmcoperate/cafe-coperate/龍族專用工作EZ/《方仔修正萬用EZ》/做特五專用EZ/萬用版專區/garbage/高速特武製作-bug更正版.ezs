@@ -1,0 +1,574 @@
+[variable]
+var1=4352338
+var2=1593690
+var3=8693446
+var4=1383051577
+var5=0
+var6=2707769
+var7=1383051569
+var8=0
+pos1=9961659
+pos2=9961831
+pos3=32964955
+pos4=
+pos5=1704647
+pos6=
+pos7=
+pos8=
+[script]
+//鑽會專用 神乎奇技 極速特武 V4.0版 28-8-2013
+//此EZ太強, 為了公會幸福著想請勿給別人, 包括任何親屬好友
+//此為救命呀HELP無私的奉獻, 小弟不才, 這EZ用了起碼80小時做出來
+//經小賀歷經數小時BUG修正而成!!
+//請各位對得起自己, 對得起公會, 善用EZ, 謝謝
+
+
+//=============↓功能說明↓==============
+
+//１.已設定BANK, 少於1千萬會自動提2000萬
+
+//２.會自動把東西存進銀行,請先手動把要放銀行之東西
+//放到背包第1頁, 左上角第一格以作抓色之用
+
+//３.座標設定：
+//POS1 = 老闆
+//POS2 = 工作的物品位置
+//POS3 = 銀行老闆
+//如不需用銀行無需設POS3
+
+//４.EZ特式*
+//提供緩衝鍵，請按下shift鍵開始工作!!
+//CAFE設定為做一件即滿100%
+//而過度低等的東西, 例如短劍, 這EZ是不做此等東西的A_A
+//因太過強大, 請自行應付使用時, 身旁叫你傳EZ給他的人
+
+
+//=============↓參數設定↓=============
+
+// 1 .每回合購入材料的份量(必須雙數)
+ExtVar[15] = 6
+
+
+//２.以下材料頁數必須順序, 因為EZ設定只可以按下一頁
+//預設裁縫2貴1蠍：6211  & 6322
+//        鐵匠2貴1鑽：2322  & 2511 
+
+//材料1*
+//材料1 的頁數
+ExtVar[5] = 6
+//材料1 直行第幾行(左至右)(1-5)
+ExtVar[21] = 2
+//材料1 橫排第幾排(上向下)(1-3)
+ExtVar[22] = 1
+//材料1 的數量
+ExtVar[0] = 1
+
+//材料2*
+//材料2 的頁數
+ExtVar[9] = 6
+//材料2 直行第幾行(左至右)(1-5)
+ExtVar[23] = 3
+//材料2 橫排第幾排(上向下)(1-3)
+ExtVar[24] =2
+//材料2 的數量
+ExtVar[1] = 2
+
+//材料3*
+//材料位置3 的頁數
+ExtVar[20] = 0
+//材料3 直行第幾行(左至右)(1-5)
+ExtVar[25] = 0
+//材料3 橫排第幾排(上向下)(1-3)
+ExtVar[26] = 0
+//材料3 的數量
+ExtVar[3] = 0
+
+//３.特武屬性分類設定
+
+ExtVar[7]=1
+
+//=========↓特武數系參考表↓=============
+//1.加攻擊 2.加遠攻 3.加AC迴避
+//4.物理攻擊加特殊屬性 5.加血 加移6.回魔力
+//7.回聖力 8.魔增 法師 9.魔增 祭司
+//10.魔法輔助增加 11.戰士能力增加 12.弓盜能力增加
+//13.法師能力增加 14.祭司能力增加 15.魔抗裝(1)
+//16.魔抗裝(2) 17.魔抗裝(3)
+
+
+//==========↓以下無需修改↓=============
+
+ExtVar[34] = 0
+ExtVar[36] = 0
+ExtVar[47] = 50
+ExtVar[48] = 0
+ExtVar[27] = ExtVar[0] / 2 * ExtVar[15]
+ExtVar[28] = ExtVar[1] / 2 * ExtVar[15]
+ExtVar[29] = ExtVar[3] / 2 * ExtVar[15]
+extvar[31] = 0
+ExtVar[33] = 0
+extvar[39] = 0
+var4 = time
+var5 = 0
+var7 = time
+var8 = 0
+
+commond:
+Call RKAIDRShift
+KeyString "\n\n"
+delay(50)
+KeyString "\n"
+KeyString "/effectoff"
+delay(50)
+KeyString "\n"
+KeyString "/shifton"
+delay(50)
+KeyString "\n"
+KeyString "\n\n"
+MouseMove 524296
+Echo "鑽會專用 - 特武製造"
+Delay(200)
+KeyString "\n\n"
+KeyString "\n\n"
+KeyString "\n\n"
+KeyUp(16)
+
+Job:
+Call Boss
+Call BossBuy
+Call BossEnd
+Call Work1
+
+if extvar[31] = 1 && pos3 > 1
+var8 = var8 + 1
+call bankstock
+end if
+
+if ExtVar[33] = 1 && pos3 > 1
+var8 = var8 + 1
+call bankmoney
+end if
+
+Jump Job
+
+Boss:
+extvar[25] = 0
+keypress(27)
+  KeyString "\n\n"
+  KeyUp(16)
+MouseMove 524296
+Echo "鑽會專用特武系統;$[(time-var7)/60%60]分$[(time-var7)%60]秒 完成$[var5]件 呼叫銀行$[var8]次 BOSS"
+  MouseMove Pos1
+  Delay(600)
+  KeyString "\n"
+delay(100)
+var4 = time + 5
+while var4 >= time && color[3408418] = 0
+return
+wend
+While Color[3408418] != 0
+MouseMove 524296
+Echo "鑽會專用特武系統;$[(time-var7)/60%60]分$[(time-var7)%60]秒 完成$[var5]件 呼叫銀行$[var8]次 BOSS"
+  MouseMove Pos1
+  KeyDown(16)
+  Delay(350)
+  KeyString "\n"
+  KeyString "\n"
+Wend
+Return
+
+BossEnd:
+KeyDown(16)
+If Color[1769964] = 0 && Color[3211856] = 0
+LClick 7340533
+LClick 19071601
+var4 = time + 5
+while var4 >= time && color[1769964] != 0
+break
+Wend
+While Color[1769964] = 0 && Color[3211856] = 0 && ExtVar[25] < 8
+LClick 19071601
+Delay(200)
+ExtVar[25] = ExtVar[25] + 1
+Wend
+end if
+If Color[3408418] = 0
+ExtVar[25] = 0
+delay(64)
+LClick 18547250
+var4 = time + 5
+while var4 >= time && color[3408418] != 0
+return
+wend
+While Color[3408418] = 0 && ExtVar[25] < 8
+LClick 18547250
+Delay(300)
+ExtVar[25] = ExtVar[25] + 1
+Wend
+keyUp(16)
+end if
+Return
+
+BossBuy:
+If Color[3408418] = 0
+ExtVar[48] = 0
+While (Color[3408418] = 0 || Color[1769964] != 0 || Color[3211856] != 0) && ExtVar[48] < ExtVar[47]
+LClick 10617356
+Delay(100)
+ExtVar[48] = ExtVar[48] + 1
+Wend
+If Color[1769964] = 0 && Color[3211856] = 0
+If ExtVar[5] >= 1 && ExtVar[21] >= 1
+Repeat ExtVar[5] - 1
+LClick 9372285
+End Repeat
+delay(128)
+LClick XY2Pos[430 + 35 * ExtVar[21], 35 + 35 * ExtVar[22]]
+repeat ExtVar[27]
+Buy 19202517 1 30
+end repeat
+End If
+If ExtVar[9] >= 1 && ExtVar[23] >= 1
+Repeat ExtVar[9] - ExtVar[5]
+LClick 9372285
+End Repeat
+dealy(30)
+LClick XY2Pos[430 + 35 * ExtVar[23], 35 + 35 * ExtVar[24]]
+repeat ExtVar[28]
+Buy 19202517 1 30
+end repeat
+End If
+If ExtVar[20] >= 1 && ExtVar[25] >= 1
+Repeat ExtVar[20] - ExtVar[9]
+LClick 9372285
+End Repeat
+LClick XY2Pos[430 + 35 * ExtVar[25], 35 + 35 * ExtVar[26]]
+repeat ExtVar[29]
+Buy 19202517 1 30
+end repeat
+End If
+//完
+ExtVar[33] = 0
+extvar[32] = GetColorPos[13558750,18743802,19464711]
+If ExtVar[32] < 0
+ExtVar[33] = 1
+end if
+IF color[5308823] = 7045788 && color[7340489] = 1055777 && color[8323575] = 1055777
+extvar[31] = 1
+end if
+LClick 7340533
+ExtVar[25] = 0
+While Color[1769964] = 0 && Color[3211856] = 0 && ExtVar[25] < 8
+LClick 19071601
+Delay(200)
+ExtVar[25] = ExtVar[25] + 1
+Wend
+end if
+else
+If Color[1769964] = 0 && Color[3211856] = 0
+LClick 7340533
+LClick 19071601
+delay(100)
+End If
+End If
+KeyUp(16)
+Return
+
+
+bankstock:
+Delay(100)
+KeyDown(27)
+KeyUp(27)
+KeyDown(13)
+KeyUp(13)
+MouseMove 524296
+Echo "銀行老闆;$[(time-var7)/60%60]分$[(time-var7)%60]秒 完成$[var5]件 呼叫銀行$[var8]次 BOSS"
+  MouseMove Pos3
+delay(100)
+KeyDown(13)
+KeyUp(13)
+Delay(500)
+while color[2818585] != 5930372 && color[4129437] != 5399931 && color[2294226] != 4350340
+MouseMove pos3
+KeyDown(13)
+KeyUp(13)
+MouseMove 524296
+Echo "銀行老闆;$[(time-var7)/60%60]分$[(time-var7)%60]秒 完成$[var5]件 呼叫銀行$[var8]次 BOSS"
+  MouseMove Pos3
+delay(100)
+KeyDown(13)
+KeyUp(13)
+Delay(500)
+wend
+delay(1000)
+while Color[2687467] != 0 && Color[2687758] != 0
+Lclick 10945096
+  MouseMove 1507367
+delay(300)
+wend
+delay(1000)
+while Color[2687467] = 0 && Color[2687758] = 0
+    LClick 21693039
+    LClick 21693039
+delay(50)
+if extvar[39] != 1
+\\14025223   [14942729]
+extvar[35] = color[14025223]
+extvar[39] = 1
+end if
+extvar[38] = 0
+extvar[25] = 0
+	while extvar[38] < 3 
+	extvar[37] = GetColorPos[extvar[35],14483971,19596038]
+		while extvar[37] >= 1 && extvar[25] < 25
+		                extvar[37] = GetColorPos[extvar[35],14483971,20185868]
+			if extvar[37] > 1
+			lclick extvar[37]
+			lclick extvar[37]
+			extvar[25] = extvar[25]+1
+			end if
+		wend
+                LClick 21693074
+                extvar[25] = 0
+	extvar[38] = extvar[38] + 1
+	wend
+keypress(27)
+keypress(27)
+keypress(27)
+wend
+extvar[31] = 0
+return
+
+
+bankmoney:
+keyup(16)
+Delay(100)
+keypress(27)
+keypress(27)
+keypress(27)
+MouseMove pos3
+KeyDown(13)
+KeyUp(13)
+MouseMove 524296
+Echo "銀行老闆;$[(time-var7)/60%60]分$[(time-var7)%60]秒 完成$[var5]件 呼叫銀行$[var8]次 BOSS"
+  MouseMove Pos3
+delay(100)
+KeyDown(13)
+KeyUp(13)
+Delay(500)
+while color[2818585] != 5930372 && color[4129437] != 5399931 && color[2294226] != 4350340
+MouseMove pos3
+KeyDown(13)
+KeyUp(13)
+MouseMove 524296
+Echo "銀行老闆;$[(time-var7)/60%60]分$[(time-var7)%60]秒 完成$[var5]件 呼叫銀行$[var8]次 BOSS"
+  MouseMove Pos3
+delay(100)
+KeyDown(13)
+KeyUp(13)
+Delay(500)
+wend
+while color[2884136] != 0 && color[12976620] != 4350340 && color[12976620] != 4873587
+Lclick 9110037
+Delay(200)
+wend
+KeyString "20000000"
+delay(500)
+while color[3080826] = 4873579 && color[3146227] = 9218749 && color[4784783] = 545123
+Lclick 19923452
+Lclick 19923452
+wend
+ExtVar[33] = 0
+keydown(16)
+Return
+
+
+
+Work1:
+KeyDown(16)
+KeyDown(27)
+KeyUp(27)
+Delay(64)
+RClick pos2
+KeyPress(191)
+Delay(200)
+var4 = time + 5
+while var4 >= time && color[5636379] = 0
+jump work1a
+wend
+extvar[25]=0
+While (Color[5636379] != 0 || Color[5636420] != 0 || Color[5636580] != 0 || Color[22020392] != 0) && extvar[25] < 20
+KeyDown(27)
+KeyUp(27)
+KeyPress(191)
+KeyPress(191)
+KeyPress(191)
+KeyPress(191)
+KeyPress(191)
+KeyPress(191)
+Delay(100)
+RClick pos2
+extvar[25] = extvar[25] + 1
+Wend
+extvar[25] = 0
+work1a:
+MouseMove pos2
+Right Down pos2
+Delay(64)
+Right Up pos2
+Delay(64)
+while Color[5636379] = 0 && Color[5636420] = 0 && Color[5636580] = 0 && Color[22020392] = 0
+Left down pos2
+delay(200)
+left up pos2
+Delay(100)
+//up
+MouseMove 23265683
+Left Down 23265683
+Delay(136)
+Left Up 23265683
+delay(64)
+extvar[42] = GetColorPos[15723503,21037401,21758306]
+If color[ExtVar[42]] = 15723503 && ExtVar[42] != -1
+jump make
+end if
+//稀有為0
+//go
+Left Down 24248643
+Delay(64)
+Left Up 24248643
+Delay(64)
+if color[5636580] != 0
+jump work1
+end if
+extvar[25] = 0
+while Color[5636580] = 0 && extvar[25] < 3
+//go
+Left down 24248643
+delay(64)
+left up 24248643
+extvar[25] = extvar[25] + 1
+wend
+
+workend:
+Left down 24248797
+delay(64)
+left up 24248797
+extvar[25] = 0
+while Color[5636580] = 0 && extvar[25] < 3
+//cancel
+LClick 24248797
+LClick 24248797
+delay(64)
+extvar[25] = extvar[25] + 1
+wend
+jump workendmark
+wend
+
+workend2:
+Left down 24248797
+delay(64)
+left up 24248797
+var4 = time + 3
+while var4 >= time && color[5636580] != 0
+jump workendmark
+wend
+extvar[25] = 0
+while Color[5636580] = 0 && extvar[25] < 5
+//cancel
+LClick 24248797
+LClick 24248797
+delay(64)
+extvar[25] = extvar[25] + 1
+if extvar[25] = 4
+keypress(27)
+keypress(27)
+keypress(27)
+delay(500)
+jump job
+extvar[25] = 0
+end if
+wend
+jump workendmark
+
+make:
+extvar[25] = 0
+Delay(64)
+   MouseMove 20775356
+   LClick 20775356
+   Delay(64)
+if Color[5636580] = 0
+while Color[20775356] != 15197159 extvar[25] < 3
+   MouseMove 20775356
+   LClick 20775356
+   Delay(30)
+extvar[25] = extvar[25] + 2
+if extvar[25] = 2
+jump workend2
+end if
+wend
+extvar[25] = 0
+delay(50)
+//if color[20775356] = 15197159
+if color[3080578] = 1581097 && color[3015024] = 5928332
+call work3
+end if
+extvar[25] = 0
+
+while Color[5636580] = 0 && extvar[25] < 3
+LClick 24248797
+   Delay(30)
+LClick 24248797
+jump workendmark
+wend
+
+end if
+call work3
+return
+
+work3:
+while color[3080578] = 1581097 && color[3015024] = 5928332
+delay(100)
+    if ExtVar[7] > 5
+     ExtVar[34]=ExtVar[7]-5
+     Delay(50)
+     Repeat ExtVar[34]
+     MouseMove 15466872
+     LClick 15466872
+     Delay(10)
+     End Repeat
+     ExtVar[36]=XY2Pos[260,215]
+    Else
+     ExtVar[36]=XY2Pos[260,65+30*ExtVar[7]]
+    End if
+   LClick ExtVar[36]
+   MouseMove 20840769
+     LClick 20840769
+     Delay(300)
+var5 = var5 + 1
+jump work1
+    end if
+wend
+while color[20775356] = 15197159
+delay(50)
+jump work3
+wend
+jump work1
+
+workendmark:
+return
+
+
+//聖皇公用程序: 等待 SHIFT 鍵 20020924
+//程序解說: 等待按下鍵盤的 SHIFT 鍵才繼續進行程式。
+//使用方法: Call RKAIDRShift
+RKAIDRShift:
+delay(100)
+KeyString "\n\n"
+delay(100)
+KeyString "\n\n"
+KeyString "^o^ please press shift key to start work!! "
+While Waitkey != 16
+Wend
+KeyString "Okay!\n\n"
+Return

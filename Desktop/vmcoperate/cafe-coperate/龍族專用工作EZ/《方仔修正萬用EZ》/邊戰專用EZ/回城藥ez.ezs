@@ -1,0 +1,794 @@
+[variable]
+var1=1591609
+var2=9219773
+var3=8688301
+var4=3749937
+var5=
+var6=4352355
+var7=
+var8=
+pos1=2360044
+pos2=9306545
+pos3=15860129
+pos4=2162931
+pos5=2162931
+pos6=2162931
+pos7=2162931
+pos8=2162931
+[script]
+//作者：陳小方
+//原始檔名：萬用版工作技能
+//
+//Pos1=老闆位置　　　(按Ctrl+Alt+1設定)
+//Pos2=創造的物品位置(按Ctrl+Alt+2設定)
+//Pos3=自己的腳位置　(按Ctrl+Alt+3設定)(撿製成品用)
+//Pos4=銀行老闆位置　(按Ctrl+Alt+4設定)
+//
+//藥水箱裡放食物，請放在腰帶第一格(最左邊那個腰帶)
+//
+//坦龍部落 之 JCT龍族專用 http://ccdrcc.servegame.com/
+ExtVar[9] = 12
+//坦龍部落 之 JCT龍族專用 http://ccdrcc.servegame.com/
+ExtVar[10] = 2151
+//商店中買入材料的位置 - 頁數(1位).行數(1位).列數(1位).數量(1位)
+ExtVar[11] = 1221
+ExtVar[12] = 2211
+ExtVar[13] = 2311
+ExtVar[14] = 0000
+//每回合購入的材料份量 - 預設(10) 份量(10-70)	(要造多少件製成品 10-70, 將會在購入材料用)
+ExtVar[15] = 10
+//每回合賣出多少頁物品 - 預設(2) 頁數(0-5)	(除了循例要賣的一頁外, 您還想再多賣多少頁)
+ExtVar[16] = 0
+//工具及裝備檢查機會率 - 預設(5) 機率(0-100)	(隨機檢查手上工具 0-100, 將會以百份率計算)
+ExtVar[17] = 0
+//偵測狀態包括襲擊照相 - 偵測(1) 不偵測(2)	(生命、魔力、體力到達指定點進食, 生命低於一半以上照相)
+ExtVar[18] = 1
+//創造新物品的數量單位 - 小量(1) 最大值(2)	(小量適用於練成功率, 最大值適用於提升技能)
+ExtVar[19] = 2
+//參數設定完畢-------------------------------------
+
+//程式初始化參數設定 - (修改以下部份內容將會影響程式中相關的說明, 非必要時不要亂改)
+RKAIDRInit:
+MoveFlag = 1
+MouseMove 19661200
+//那一個位置的顏色改變了才定義為死亡？ (預設: 39059486 = 生命力最低點)
+ExtVar[0] = 39059486
+//那一個位置的顏色改變了才喝紅藥水呢？ (預設: 36438046 = 生命力 50%)
+ExtVar[1] = 36438046
+//那一個位置的顏色改變了才喝藍藥水呢？ (預設: 36438786 = 魔力 10%)
+ExtVar[2] = 38273794
+//那一個位置的顏色改變了才進食食物呢？ (預設: 34930757 = 體力 2%)
+ExtVar[3] = 34930757
+//紅藥水樣本您放在腰帶中的第幾格？ (預設: 3)
+ExtVar[4] = 3
+//藍藥水樣本您放在腰帶中的第幾格？ (預設: 4)
+ExtVar[5] = 4
+//食物的樣本您放在腰帶中的第幾格？ (預設: 5)
+ExtVar[6] = 5
+//藥水箱您放在腰帶中的第幾格？ (預設: 1)
+ExtVar[7] = 1
+//藥水箱裡您放了的是什麼東西？ (預設: 3) 紅水(1) 藍水(2) 食物(3)
+ExtVar[8] = 3
+//腰帶起始點
+ExtVar[20] = 37683641
+//初期顏色記錄 - 死亡判斷點
+ExtVar[30] = Color[ExtVar[0]]
+//初期顏色記錄 - 生命判斷點
+ExtVar[31] = Color[ExtVar[1]]
+//初期顏色記錄 - 魔力判斷點
+ExtVar[32] = Color[ExtVar[2]]
+//初期顏色記錄 - 體力判斷點
+ExtVar[33] = Color[ExtVar[3]]
+//初期顏色記錄 - 紅水顏色點
+ExtVar[34] = Color[ExtVar[20] + (33 * ExtVar[4])]
+//初期顏色記錄 - 藍水顏色點
+ExtVar[35] = Color[ExtVar[20] + (33 * ExtVar[5])]
+//初期顏色記錄 - 食物顏色點
+ExtVar[36] = Color[ExtVar[20] + (33 * ExtVar[6])]
+//初期顏色記錄 - 藥箱顏色點
+ExtVar[37] = Color[ExtVar[20] + (33 * ExtVar[7])]
+//初期顏色記錄 - 藥箱物品顏色點
+ExtVar[38] = Color[30802648]
+//初期顏色記錄 - 裝備工具顏色點
+ExtVar[39] = Color[ExtVar[9]]
+//暫存顏色記錄 - 死亡判斷點 *** 未有真正用途
+ExtVar[40] = Color[ExtVar[0]]
+//暫存顏色記錄 - 生命判斷點
+ExtVar[41] = Color[ExtVar[1]]
+//暫存顏色記錄 - 魔力判斷點 *** 未有真正用途
+ExtVar[42] = Color[ExtVar[2]]
+//呼叫視窗的重試次數(重試多少次數)
+ExtVar[47] = 20
+//呼叫視窗的失敗次數(自動累績次數)
+ExtVar[48] = 0
+//連點狀態記錄
+ExtVar[49] = 0
+
+//---
+ExtVar[21] = 0
+ExtVar[22] = 0
+ExtVar[23] = 0
+ExtVar[24] = 0
+ExtVar[25] = 0
+ExtVar[26] = 0
+ExtVar[27] = 0
+ExtVar[28] = 0
+ExtVar[29] = 0
+//---
+
+KeyString "\n\n"
+If Pos1 <= 0 || Pos2 <= 0
+  KeyString "Please Set Pos1 & Pos2!"
+  Stop
+End If
+
+//工具代碼自動轉換 20030709
+RKAIDRInitTool:
+If ExtVar[9] = 1
+  ExtVar[9] = 5177999
+ElseIf ExtVar[9] = 2
+  ExtVar[9] = 5767817
+ElseIf ExtVar[9] = 3
+  ExtVar[9] = 5440139
+ElseIf ExtVar[9] = 4
+  ExtVar[9] = 5112458
+ElseIf ExtVar[9] = 5
+  ExtVar[9] = 5309070
+ElseIf ExtVar[9] = 6
+  ExtVar[9] = 5309068
+ElseIf ExtVar[9] = 7
+  ExtVar[9] = 6095492
+ElseIf ExtVar[9] = 8
+  ExtVar[9] = 5702292
+ElseIf ExtVar[9] = 9
+  ExtVar[9] = 5571213
+ElseIf ExtVar[9] = 10
+  ExtVar[9] = 5636752
+ElseIf ExtVar[9] = 11
+  ExtVar[9] = 5177996
+ElseIf ExtVar[9] = 12
+  ExtVar[9] = 5964421
+ElseIf ExtVar[9] = 13
+  ExtVar[9] = 5440147
+ElseIf ExtVar[9] = 14
+  ExtVar[9] = 5571215
+ElseIf ExtVar[9] = 15
+  ExtVar[9] = 5636751
+End If
+
+//錯誤變數自動修正
+If ExtVar[15] < 10
+  ExtVar[15] = 10
+ElseIf ExtVar[15] > 70
+  ExtVar[15] = 70
+End If
+If ExtVar[16] < 0
+  ExtVar[16] = 0
+ElseIf ExtVar[16] > 5
+  ExtVar[16] = 5
+End If
+If ExtVar[17] < 0
+  ExtVar[17] = 0
+ElseIf ExtVar[17] > 100
+  ExtVar[17] = 100
+End If
+If ExtVar[18] != 1
+  ExtVar[18] = 2
+End If
+If ExtVar[19] != 1
+  ExtVar[19] = 2
+End If
+
+Call RKAIDRUseCommand
+Call RKAIDRShift
+
+
+//工作主程序
+DRJob:
+KeyDown(16)
+Call RKAIDRSetPeace
+Call DRJobBoss
+Call DRJobBossBuy
+Call DRJobBossEnd
+Call DRJobWorkB
+MouseMove 524296
+Echo "鑽會提供-邊戰專用回城藥-請自取    \n"
+KeyString "\n\n"
+delay(1500)
+MouseMove 524296
+Echo "鑽會提供-邊戰專用回城藥-請自取  \n"
+KeyString "\n\n"
+delay(1500)
+MouseMove 524296
+Echo "鑽會提供-邊戰專用回城藥-請自取    \n"
+KeyString "\n\n"
+delay(1500)
+Jump DRJob
+
+
+//工作呼叫老闆 20020923
+DRJobBoss:
+KeyString "\n\n"
+Delay(200)
+MouseMove 524296
+Echo "鑽會提供-邊戰專用回城藥-請自取  BOSS  \n"
+KeyString "\n\n"
+  MouseMove Pos1
+Delay(250)
+ExtVar[48] = 0
+While Color[3408418] != 0 && ExtVar[48] < ExtVar[47]
+
+   MouseMove 524296
+Echo "鑽會提供-邊戰專用回城藥-請自取  BOSS \n"
+KeyString "\n\n"
+  MouseMove Pos1
+KeyString "BOSS \n"
+KeyString "BOSS \n"
+Delay(300)
+  ExtVar[48] = ExtVar[48] + 1
+Wend
+If ExtVar[48] >= ExtVar[47]
+  KeyDown(16)
+  Call RKAIDR
+End If
+KeyDown(16)
+Return
+
+//工作離開老闆 20020923
+DRJobBossEnd:
+If Color[1769964] = 0 && Color[3211856] = 0
+  KeyDown(16)
+  Call RKAIDR
+  LClick 7340533    //沒有這個物品或已滿確定
+  ExtVar[48] = 0
+  While Color[1769964] = 0 && Color[3211856] = 0 && ExtVar[48] < ExtVar[47]
+    LClick 19071601   //買賣物品取消
+    Delay(150)
+    ExtVar[48] = ExtVar[48] + 1
+  Wend
+  Delay(150)
+End If
+If Color[3408418] = 0
+  KeyDown(16)
+  ExtVar[48] = 0
+  While Color[3408418] = 0 && ExtVar[48] < ExtVar[47]
+    LClick 18547250   //離開
+    Delay(150)
+    ExtVar[48] = ExtVar[48] + 1
+  Wend
+  If ExtVar[48] >= ExtVar[47]
+    Call RKAIDR
+  End If
+Else
+  KeyDown(16)
+  Call RKAIDR
+End If
+KeyDown(16)
+Return
+
+//工作賣出物品 20020923
+DRJobBossSell:
+If Color[3408418] = 0
+  KeyDown(16)
+  ExtVar[48] = 0
+  While (Color[3408418] = 0 || Color[1769964] != 0 || Color[3211856] != 0) && ExtVar[48] < ExtVar[47]
+    LClick 10617434   //賣
+    Delay(150)
+    ExtVar[48] = ExtVar[48] + 1
+  Wend
+  If Color[1769964] = 0 && Color[3211856] = 0
+    LClick 4719229    //上一頁
+    LClick 4719229    //上一頁
+    LClick 4719229    //上一頁
+    SellAll 1 1
+    LClick 7340533    //沒有這個物品或已滿確定
+    ExtVar[48] = 0
+    While Color[1769964] = 0 && Color[3211856] = 0 && ExtVar[48] < ExtVar[47]
+      LClick 19071601   //買賣物品取消
+      Delay(150)
+      ExtVar[48] = ExtVar[48] + 1
+    Wend
+  End If
+  If ExtVar[48] >= ExtVar[47]
+    Call RKAIDR
+  End If
+Else
+  KeyDown(16)
+  Call RKAIDR
+  If Color[1769964] = 0 && Color[3211856] = 0
+    LClick 7340533    //沒有這個物品或已滿確定
+    LClick 19071601   //買賣物品取消
+    Delay(150)
+  End If
+End If
+KeyDown(16)
+Return
+
+//工作買入物品 20020923
+DRJobBossBuy:
+If Color[3408418] = 0
+  KeyDown(16)
+  ExtVar[48] = 0
+  While (Color[3408418] = 0 || Color[1769964] != 0 || Color[3211856] != 0) && ExtVar[48] < ExtVar[47]
+    LClick 10617356   //買
+    Delay(200)
+    ExtVar[48] = ExtVar[48] + 1
+  Wend
+    LClick 4719229    //上一頁
+    ExtVar[21] = 1
+    ExtVar[22] = 1
+    While ExtVar[21] <= 4 && ExtVar[10 + ExtVar[21]] >= 1111 && Color[6553896] != 0 && Color[11141592] != 0
+      If ExtVar[22] - (ExtVar[10 + ExtVar[21]] / 1000) != 0
+        Repeat ExtVar[22] - ((ExtVar[10 + ExtVar[21]] - (ExtVar[10 + ExtVar[21]] % 1000)) / 1000)
+          LClick 4719229    //上一頁
+        End Repeat
+        Repeat ((ExtVar[10 + ExtVar[21]] - (ExtVar[10 + ExtVar[21]] % 1000)) / 1000) - ExtVar[22]
+          LClick 9372285    //下一頁
+        End Repeat
+      End If
+      ExtVar[22] = ExtVar[10 + ExtVar[21]] / 1000
+      LClick XY2Pos[430 + 35 * ((ExtVar[10 + ExtVar[21]] / 10) % 10), 35 + 35 * ((ExtVar[10 + ExtVar[21]] / 100) % 10)]
+      Repeat ExtVar[10 + ExtVar[21]] % 10 * ExtVar[15]
+        LClick 19071443   //買賣物品確定
+      End Repeat
+      ExtVar[21] = ExtVar[21] + 1
+    Wend
+    LClick 7340533    //沒有這個物品或已滿確定
+    ExtVar[48] = 0
+    While Color[1769964] = 0 && Color[3211856] = 0 && ExtVar[48] < ExtVar[47]
+      LClick 19071601   //買賣物品取消
+      Delay(150)
+      ExtVar[48] = ExtVar[48] + 1
+    Wend
+  End If
+  If ExtVar[48] >= ExtVar[47]
+    Call RKAIDR
+  End If
+Else
+  KeyDown(16)
+  Call RKAIDR
+  If Color[1769964] = 0 && Color[3211856] = 0
+    LClick 7340533    //沒有這個物品或已滿確定
+    LClick 19071601   //買賣物品取消
+    Delay(150)
+  End If
+End If
+KeyDown(16)
+Return
+
+//工作創造物品 20020930
+DRJobWorkB:
+ExtVar[23] = ExtVar[15]
+DRJobWorkBStart:
+  Call RKAIDRCheckCure
+KeyDown(16)
+Delay(32)
+      RClick 19071601 
+      RClick 19071601 
+  Keypress(112)  //工作功能鍵
+Delay(150)
+ExtVar[48] = 0
+While (Color[5636379] != 0 || Color[5636420] != 0 || Color[5636580] != 0 || Color[22020392] != 0) && ExtVar[48] < ExtVar[47]
+  Keypress(112)   //工作功能鍵
+      RClick 19071601 
+      RClick 19071601 
+  Delay(150)
+  Keypress(112)  //工作功能鍵
+  ExtVar[48] = ExtVar[48] + 1
+Wend
+MouseMove 28050186
+Right Down 28050186
+Delay(32)
+Right Up 28050186
+KeyDown(16)
+Delay(32)
+If Color[5636379] = 0 && Color[5636420] = 0 && Color[5636580] = 0 && Color[22020392] = 0
+  //物品選擇
+  LClick Pos2
+  LClick Pos2
+  KeyDown(16)
+  Delay(50)
+  //創造數量
+
+  LClick 24969616
+  LClick 24969616
+    Delay(30)
+  LClick 24969616
+  KeyDown(16)
+  Delay(22)
+  ExtVar[48] = ExtVar[47] - 5
+  While Color[5636580] = 0 && ExtVar[48] < ExtVar[47]
+    LClick 24248643   //創造物品確定
+    Delay(128)
+    ExtVar[48] = ExtVar[48] + 1
+  Wend
+  If Color[5636580] = 0
+    ExtVar[48] = ExtVar[47] - 5
+    While Color[5636580] = 0 && ExtVar[48] < ExtVar[47]
+      LClick 24248797   //創造物品取消
+      Delay(128)
+      ExtVar[48] = ExtVar[48] + 1
+    Wend
+  Else
+    //撿起製成品 20020923 風清揚過 提供
+
+
+
+  End If
+Else
+  KeyDown(16)
+  Call RKAIDR
+End If
+Return
+
+//聖皇公用程序: 工作用暫停動作判斷 20020923 (參數佔用0,30,49)
+//程序解說: 如果死亡判斷點 ExtVar[0] 與初期的 ExtVar[30] 顏色有異，就停上所有動作及按F2停止連點並大叫救命。
+//必要參數: ExtVar[0] = 死亡判斷位置
+//必要參數: ExtVar[30] = Color[ExtVar[0]]
+//補充說明: KeyPress(F2) 是按 F2 把連點停止直到被救，若您非 F2 停止連點請自行修改停止熱鍵。
+//使用方法: On Color[ExtVar[0]] != ExtVar[30] Jump RKDRJobDead
+RKDRJobDead:
+ExtVar[49] = 0
+KeyPress(F2)
+KeyPress(F2)
+KeyPress(27)
+KeyPress(27)
+KeyPress(123)
+KeyPress(123)
+Var4 = Var4 + 1
+KeyString "\n\n"
+Delay(300)
+While Color[ExtVar[0]] != ExtVar[30]
+  KeyString "@@ Please Help Me!"
+  KeyString "\n"
+  Delay(2000)
+Wend
+KeyString "^^ Thanks For Help!"
+KeyString "\n"
+KeyDown(16)
+Delay(300)
+Call RKAIDRSetPeace
+Delay(300)
+Resume
+
+//聖皇公用程序: 關閉效果指令 20020928
+//程序解說: 使用指令把所有能夠擾亂畫面的都停止及關閉。
+//使用方法: Call RKAIDRUseCommand
+RKAIDRUseCommand:
+KeyString "\n\n"
+Delay(100)
+//防止交易 20020928
+KeyString "/tradeoff"
+KeyString "\n"
+Delay(100)
+//防止地震 20020928
+KeyString "/effectoff"
+KeyString "\n"
+KeyString "/shifton"
+KeyString "\n"
+Delay(100)
+Return
+
+//聖皇公用程序: 等待 SHIFT 鍵 20020924
+//程序解說: 等待按下鍵盤的 SHIFT 鍵才繼續進行程式。
+//使用方法: Call RKAIDRShift
+RKAIDRShift:
+KeyString "\n\n"
+KeyString "^o^ "
+While Waitkey != 16
+Wend
+KeyString "Okay!\n\n"
+Return
+
+//聖皇公用程序: 襲擊照相 20020911 (參數佔用1, 31, 41)
+//程序解說: 如果生命判斷點與初期的 ExtVar[31] 及上一次撿查時的 ExtVar[41] 生命力有異就照相大叫救命或說聲謝謝幫忙。
+//必要參數: ExtVar[1] = 生命判斷位置
+//必要參數: ExtVar[31] = Color[ExtVar[1]]
+//使用方法: Call RKAIDRCheckPK
+RKAIDRCheckPK:
+If Color[ExtVar[1]] != ExtVar[31] && Color[ExtVar[1]] != ExtVar[41]
+  KeyPress(27)
+  KeyPress(27)
+  KeyPress(123)
+  KeyPress(123)
+  KeyString "\n\n"
+  KeyString "@@ PK? Please Help Me!"
+  KeyString "\n"
+ElseIf Color[ExtVar[1]] = ExtVar[31] && Color[ExtVar[1]] != ExtVar[41]
+  KeyString "\n\n"
+  KeyString "^^ Thanks For Help!"
+  KeyString "\n"
+End If
+  ExtVar[41] = Color[ExtVar[1]]
+Return
+
+//聖皇公用程序: 檢查裝備 20020911 (參數佔用9, 39, 43-44)
+//程序解說: 打開物品欄撿查 ExtVar[9] 位置的顏色是否與初期設定的 ExtVar[39] 一樣，如果不同就打開物品欄尋找符合的物品並裝備。
+//必要參數: ExtVar[9] = 工具判斷位置
+//必要參數: ExtVar[39] = Color[ExtVar[9]]
+//使用方法: Call RKAIDRCheckTool
+RKAIDRCheckTool:
+ExtVar[44] = 1
+If ExtVar[9] >= 1 && ExtVar[39] >= 1
+  Call RKAIDRItemOpen
+  If Color[ExtVar[9]] != ExtVar[39]
+    KeyString "\n\n"
+    KeyString "@@ I Need Tools! (Broken)"
+    KeyString "\n"
+    If ExtVar[39] != 0
+      ExtVar[43] = ExtVar[39]
+      Call RKAIDRItemUse
+    End If
+  End If
+  Call RKAIDRItemClose
+End If
+Return
+
+//聖皇公用程序: 檢查狀況 20020922 (參數佔用1-8, 20, 31-37, 43-45)
+//必要參數: ExtVar[1至8] = 狀態判斷點
+//必要參數: ExtVar[20] = 腰帶第一格座標 - 33
+//使用方法: Call RKAIDRCheckCure
+RKAIDRCheckCure:
+ExtVar[44] = 0
+If ((Color[ExtVar[1]] != ExtVar[31] && ExtVar[8] = 1) || (Color[ExtVar[2]] != ExtVar[32] && ExtVar[8] = 2) || (Color[ExtVar[3]] != ExtVar[33] && ExtVar[8] = 3)) && ExtVar[37] >= 1 && ExtVar[7] >= 1
+  ExtVar[45] = ExtVar[20] + (33 * ExtVar[7])
+  //使用物品
+  MouseMove ExtVar[45]
+  Repeat 2
+    Right Down ExtVar[45]
+    Delay(100)
+    Right Up ExtVar[45]
+    Delay(50)
+  End Repeat
+  KeyDown(16)
+End If
+If Color[ExtVar[1]] >= 1 && ExtVar[31] >= 1 && Color[ExtVar[1]] != ExtVar[31]
+  KeyString "\n\n"
+  KeyString "@@ I Need Heal~ Thanks! (HP)"
+  KeyString "\n"
+  If ExtVar[34] > 0
+    ExtVar[43] = ExtVar[34]
+    Call RKAIDRItemUse
+  End If
+ElseIf Color[ExtVar[2]] >= 1 && ExtVar[32] >= 1 && Color[ExtVar[2]] != ExtVar[32]
+  KeyString "\n\n"
+  KeyString "@@ I Need Mana~ Thanks! (MP)"
+  KeyString "\n"
+  If ExtVar[35] > 0
+    ExtVar[43] = ExtVar[35]
+    Call RKAIDRItemUse
+  End If
+ElseIf Color[ExtVar[3]] >= 1 && ExtVar[33] >= 1 && Color[ExtVar[3]] != ExtVar[33]
+  KeyString "\n\n"
+  KeyString "@@ I Need Cure~ Thanks! (Hungry)"
+  KeyString "\n"
+  If ExtVar[36] > 0
+    ExtVar[43] = ExtVar[36]
+    Call RKAIDRItemUse
+  End If
+End If
+Return
+
+//聖皇公用程序: 物品視窗開啟 20030708 (參數佔用47-48)
+//使用方法: Call RKAIDRItemOpen
+RKAIDRItemOpen:
+ExtVar[48] = 0
+While (Color[328165] != 0 || Color[590621] != 0 || Color[23200229] != 0 || Color[22938397] != 0) && ExtVar[48] < ExtVar[47]
+  MouseMove 37683455
+  Right Down 37683455
+  Delay(100)
+  Right Up 37683455
+  KeyDown(16)
+  Delay(64)
+  LClick 37683455
+  Delay(150)
+  RClick 37683455
+  ExtVar[48] = ExtVar[48] + 1
+Wend
+Return
+
+//聖皇公用程序: 物品視窗關閉 20030708 (參數佔用47-48)
+//使用方法: Call RKAIDRItemClose
+RKAIDRItemClose:
+ExtVar[48] = 0
+While (Color[328165] = 0 && Color[590621] = 0 && Color[23200229] = 0 && Color[22938397] = 0) && ExtVar[48] < ExtVar[47]
+  MouseMove 21955319
+  Right Down 21955319
+  Delay(100)
+  Right Up 21955319
+  KeyDown(16)
+  Delay(64)
+  LClick 21955319
+  Delay(150)
+  RClick 21955319
+  ExtVar[48] = ExtVar[48] + 1
+Wend
+Return
+
+//聖皇公用程序: 物品裝備使用 20020708 (參數佔用43-46)
+//必要參數: ExtVar[43] = 要尋找物品的顏色碼
+//必要參數: ExtVar[44] = 0 使用 / 1 裝備
+//必要參數: ExtVar[39] = Color[ExtVar[9]]
+//使用方法: Call RKAIDRItemUse
+RKAIDRItemUse:
+If ExtVar[43] >= 1
+  Call RKAIDRItemOpen
+  If Color[328165] = 0 && Color[590621] = 0 && Color[23200229] = 0 && Color[22938397] = 0
+    //返回第一頁物品
+    KeyDown(16)
+    Delay(32)
+    LClick 21955189
+    LClick 21955189
+    ExtVar[45] = 0
+    ExtVar[46] = 1
+    If ExtVar[43] != 0
+      While ExtVar[46] <= 3 && ExtVar[45] <= 0
+        KeyDown(16)
+        Delay(150)
+        //尋找物品
+        ExtVar[45] = GetColorPos[ExtVar[43],13435384,20185870]
+        If ExtVar[45] >= 1
+          If ExtVar[44] = 1
+            //裝備物品
+            LClick ExtVar[45]
+            LClick ExtVar[45]
+          Else
+            //使用物品
+            MouseMove ExtVar[45]
+            Repeat 2
+              Right Down ExtVar[45]
+              Delay(100)
+              Right Up ExtVar[45]
+              Delay(50)
+            End Repeat
+            KeyDown(16)
+          End If
+        Else
+          //下一頁物品
+          LClick 21955225
+          ExtVar[46] = ExtVar[46] + 1
+        End If
+      Wend
+      KeyDown(16)
+    End If
+    Call RKAIDRItemClose
+  Else
+    MouseMove 37683455
+    Right Down 37683455
+    Delay(100)
+    Right Up 37683455
+    KeyDown(16)
+    Call RKAIDR
+  End If
+End If
+Return
+
+//坦龍部落 之 JCT龍族專用 http://ccdrcc.servegame.com/
+Money:
+KeyPress(27)
+Delay(100)
+
+//坦龍部落 之 JCT龍族專用 http://ccdrcc.servegame.com/
+MouseMove pos4
+Delay(100)
+Keystring "\n"
+delay(100)
+keystring "v(^3^)v BOSS"
+delay(200)
+mousemove pos4
+Keystring "\n"
+Delay(1000)
+
+//坦龍部落 之 JCT龍族專用 http://ccdrcc.servegame.com/
+mousemove 6816310
+delay(100)
+left click 6816310
+delay(200)
+
+//坦龍部落 之 JCT龍族專用 http://ccdrcc.servegame.com/
+KeyPress(105)
+KeyPress(105)
+KeyPress(105)
+KeyPress(105)
+KeyPress(105)
+KeyPress(105)
+KeyPress(105)
+KeyPress(105)
+KeyPress(105)
+KeyPress(105)
+delay(300)
+
+//坦龍部落 之 JCT龍族專用 http://ccdrcc.servegame.com/
+mousemove 19988982
+delay(100)
+left click 19988982
+delay(200)
+
+//坦龍部落 之 JCT龍族專用 http://ccdrcc.servegame.com/
+mousemove 19923577
+delay(100)
+left click 19923577
+delay(200)
+
+//坦龍部落 之 JCT龍族專用 http://ccdrcc.servegame.com/
+mousemove 8847925
+delay(100)
+left click 8847925
+delay(200)
+
+//坦龍部落 之 JCT龍族專用 http://ccdrcc.servegame.com/
+KeyPress(101)
+KeyPress(96)
+KeyPress(96)
+KeyPress(96)
+KeyPress(96)
+KeyPress(96)
+delay(300)
+
+//坦龍部落 之 JCT龍族專用 http://ccdrcc.servegame.com/
+mousemove 19988982
+delay(100)
+left click 19988982
+delay(200)
+
+//坦龍部落 之 JCT龍族專用 http://ccdrcc.servegame.com/
+mousemove 19988982
+delay(100)
+left click 19988982
+delay(200)
+Return
+
+//聖皇公用程序: 設換和平狀態 20020911
+//使用方法: Call RKAIDRSetPeace
+RKAIDRSetPeace:
+
+Return
+
+//聖皇公用程序: 設換戰鬥狀態 20020911
+//使用方法: Call RKAIDRSetBattle
+RKAIDRSetBattle:
+
+Return
+
+//聖皇公用程序: 視窗防禦判斷 20030713
+//使用方法: Call RKAIDR
+RKAIDR:
+//物品交換取消 20030708
+If Color[26542115]=0 && Color[26280398]=0
+  LClick 24903930
+  Delay(500)
+  If Color[6553896]=0 && Color[11141592]=0
+    LClick 7340533
+    Delay(500)
+    If Color[328165]=0 && Color[22938397]=0
+      LClick 21955319
+      Delay(500)
+    End If
+  End If
+//交易失敗確定 20030708
+ElseIf Color[6553896]=0 && Color[11141592]=0
+  LClick 7340533
+  Delay(500)
+  If Color[328165]=0 && Color[22938397]=0
+    LClick 21955319
+    Delay(500)
+  End If
+//邊境參戰取消 20020606
+ElseIf Color[9175185]=0 && Color[29688458]=0
+  LClick 28181001
+//國戰開始確定 20020713
+ElseIf Color[9175179]=0 && Color[29033106]=0
+  LClick 27197995
+//國戰完成確定 20030713
+ElseIf Color[9175048]=0 && Color[28181270]=0
+  LClick 26214800
+//戰鬥技能確定 20021018
+ElseIf Color[10486027]=0 && Color[25297422]=0
+  LClick 26870157
+//郵件視窗離開 20030708
+ElseIf Color[328085]=0 && Color[31654681]=0
+  LClick 29885158
+End If
+Return
+
+Stop

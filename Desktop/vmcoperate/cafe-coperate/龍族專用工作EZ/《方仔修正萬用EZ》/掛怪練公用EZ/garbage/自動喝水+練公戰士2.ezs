@@ -1,0 +1,229 @@
+[variable]
+var1=532513
+var2=2175042
+var3=11374179
+var4=7576270
+var5=4347251
+var6=6519188
+var7=4880747
+var8=3747996
+pos1=14221681
+pos2=10748013
+pos3=10551425
+pos4=30802647
+pos5=38732535
+pos6=38732535
+pos7=18350254
+pos8=36831264
+[script]
+KeyString "\n\n"
+Delay(200)
+//小方改編版超強打圖模組-盜賊版
+//8 補血血量     已事先設定 必要時在修改
+//4 施放戰技位置
+//2 ,3怪物位置
+//藥水箱放第3格
+
+//f4 攻擊技能
+//---------start-------ExtVar0 存CP or Not  ExtVar1 計數器
+Delay(100)
+KeyString "\n"
+KeyString "\n"
+KeyString "\n"
+Delay(100)
+KeyString "/effectoff\n"
+KeyString"\n"
+KeyString "/tradeoff\n"
+KeyString "/shifton\n"
+KeyString "/takeoff\n"
+KeyString "/nationparty\n"
+KeyString"\n"
+Delay(100)
+keypress(27)
+Call SetBattle
+//-----------一次性變數設定 var8 = 血位置  
+//Var8=Color[Pos8]
+//Var2=Color[Pos2]
+//Var3=Color[Pos3]
+//Var4=Color[Pos4]
+//Var5=Color[Pos5]
+//Var6=Color[Pos6]
+//Var7=Color[Pos7]
+extvar[1]=0
+//-----------變數設定完畢-----------
+start:
+keypress(120)
+
+call Zero
+//攻擊和檢測血量---外回圈
+Repeat 1
+//檢測血量
+    If Color[Pos8]!=Var8
+        KeyUp(16)
+        Call restore
+    End If
+//攻擊
+KeyDown(16)
+Delay(50)
+
+    Repeat 55
+        Left Click pos2
+	Delay(50)
+        Left Click pos3
+	Delay(50)
+    End Repeat
+ KeyDown(16)
+Delay(50)
+End Repeat
+keypress(121)
+//放技能
+if   Color[38732535]!=2203193
+	Repeat 3
+		
+	Right Down pos4
+	Delay(50)
+	Right Up pos4
+	Delay(50)
+	End Repeat
+end if
+
+//看是否存活
+Call Windef
+Jump start
+
+
+//-----------------以下副程式
+restore:
+KeyPress(50)
+Delay(100)
+KeyDown(16)
+Delay(500)
+return
+
+waitalive:
+Keyup(16)
+KeyPress(16)
+    while  Color[38469670]=3758451
+    KeyString "\n"
+    Delay(1000)
+    extvar[1]=extvar[1]+1
+        While extvar[1]>3 && Color[38469670]=3758451
+                Delay(500)
+        Wend
+    wend
+
+
+    Delay(300)
+
+    KeyString(\n)
+    Delay(1500)
+    
+    KeyString "\n"
+    Delay(300)
+keypress(27)
+keypress(27)
+
+//設換戰鬥狀態
+While Color[36700855] != 0 || Color[37159613] != 0
+  keypress(27)
+  Delay(1000)
+  LClick 36766401
+  Delay(150)
+Wend
+keypress(115)
+keypress(115)
+keypress(115)
+
+
+extvar[1]=7
+return
+
+
+//設換戰鬥狀態
+//使用方法: Call SetBattle
+SetBattle:
+
+
+
+While Color[36700855] != 0 || Color[37159613] != 0
+  keypress(27)
+  keypress(120)
+  Delay(1000)
+  LClick 36766401
+  Delay(150)  
+    if (ExtVar[2] = 0)
+    Delay(500)
+    KeyPress(81)
+    Delay(500)
+    Left Click 22085757
+    Delay(500)
+    KeyPress(27)
+    Delay(500)
+    KeyPress(27)
+    Delay(500)
+    ExtVar[2] = 5
+   end if
+        ExtVar[2] =  ExtVar[2]  -1
+ Wend
+Return
+
+
+
+\\飲清零水
+Zero:
+    KeyPress(115)
+
+    If Color[35455532] = 4358821 && Color[35455537] = 4358821
+    KeyString "\n\n"
+    Delay(500)
+    KeyString "Clear Exp Right now!Exp Over 75%"
+    Delay(500)
+    KeyString "\n\n"
+    Delay(1000)
+    Delay(500)
+    KeyPress(27)
+    KeyPress(27)
+    KeyPress(51)
+    End If
+Return
+
+//視窗防禦判斷
+//使用方法: Call Windef
+Windef:
+//物品交換取消 20030708
+If Color[26542115]=0 && Color[26280398]=0
+  LClick 24903930
+  Delay(500)
+  If Color[6553896]=0 && Color[11141592]=0
+    LClick 7340533
+    Delay(500)
+    If Color[328165]=0 && Color[22938397]=0
+      LClick 21955319
+      Delay(500)
+    End If
+  End If
+//交易失敗確定 20030708
+ElseIf Color[6553896]=0 && Color[11141592]=0
+  LClick 7340533
+  Delay(500)
+  If Color[328165]=0 && Color[22938397]=0
+    LClick 21955319
+    Delay(500)
+  End If
+//邊境參戰取消 20020606
+ElseIf Color[9175185]=0 && Color[29688458]=0
+  LClick 28181001
+//國戰開始確定 20020713
+ElseIf Color[9175179]=0 && Color[29033106]=0
+  LClick 27197995
+//國戰完成確定 20030713
+ElseIf Color[9175048]=0 && Color[28181270]=0
+  LClick 26214800
+//戰鬥技能確定 20021018
+ElseIf Color[10486027]=0 && Color[25297422]=0
+  LClick 26870157
+//郵件視窗離開 20030708
+ElseIf Color[328085]=0 && Color[31654681]=0
+  LClick 29885158
+End If
+Return

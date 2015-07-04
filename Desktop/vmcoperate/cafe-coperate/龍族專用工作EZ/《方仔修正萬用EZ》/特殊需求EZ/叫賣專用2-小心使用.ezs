@@ -1,0 +1,191 @@
+[variable]
+var1=2181442
+var2=
+var3=
+var4=
+var5=5925243
+var6=
+var7=
+var8=
+pos1=16712317
+pos2=1376627
+pos3=19136723
+pos4=11338055
+pos5=11338157
+pos6=11272683
+pos7=21823607
+pos8=36242185
+[script]
+//設定模組  1 為國頻 
+//設定模組  2 為全國廣播  
+//設定模組  3為綜合版
+
+//pos1 是老闆
+Extvar[1]=1
+
+jump select_mode
+//使用mode1時 要說的話打在下面
+//使用mode2時直接把要輸入的話複製起來(ctrl+c)
+
+I_WANT_TO_SAY:
+delay(600)
+MouseMove 524296
+Echo "賢水換禁水1:2  賢水換龍幣1:100E     收禁飲 30點or40e    密~!"
+return
+
+select_mode:
+delay(100)
+KeyString "\n"
+delay(100)
+KeyString "\n\n\n\n\n\n\n"
+delay(100)
+MouseMove 524296
+Echo "start to say something"
+keypress(27)
+keypress(27)
+delay(1300)
+
+ 
+KeyString "\n"
+delay(100)
+KeyPress(13)
+KeyPress(13)
+KeyPress(13)
+delay(100)
+if Extvar[1]=1
+jump mode1
+elseif Extvar[1]=2
+jump mode2 
+
+elseif Extvar[1]=3
+jump mode3
+end if
+
+//**************分格線*******************//
+//**************分格線*******************//
+mode1:
+
+KeyPress(9)
+KeyPress(9)
+mode11:
+
+call I_WANT_TO_SAY
+KeyString "\n"
+delay(50000)
+
+jump mode11
+
+
+
+mode2:
+KeyPress(27)
+KeyPress(27)
+KeyPress(27)
+KeyString "\n"
+delay(100)
+Echo "/shifton"
+KeyString "\n"
+KeyString "\n"
+KeyString "\n"
+delay(300)
+//call boss
+MouseMove pos1
+delay(100)
+KeyString " \n \n"
+delay(100)
+KeyString " bossboss  \n"
+delay(1300)
+KeyString "\n"
+// 確定
+MouseMove 9175434
+Left Down 9175434
+delay(1300)
+Left Up 9175434
+Left Down 9175434
+delay(200)
+Left Up 9175434
+delay(1300)
+//選全國
+MouseMove 20840893
+Left Down 20840893
+delay(200)
+Left Up 20840893
+delay(1300)
+//按進對話框
+
+MouseMove 11403640
+Left Down 11403640
+delay(200)
+Left Up 11403640
+delay(1300)
+//鍵入說話
+keypress(ctrl+86)
+
+
+//輸出廣播
+MouseMove 27001170
+Left Down 27001170
+delay(200)
+Left Up 27001170
+delay(1300)
+KeyString "\n"
+delay(120000)
+
+jump mode2
+
+
+mode3:
+KeyString "\n"
+delay(300)
+KeyPress(9)
+KeyPress(9)
+
+
+call I_WANT_TO_SAY
+KeyString "\n"
+delay(300)
+KeyPress(27)
+
+//call boss
+MouseMove 33096306
+KeyString "\n"
+delay(100)
+KeyString "567568585685685bossboss love u\n"
+delay(500)
+KeyString "\n"
+// 確定
+MouseMove 9175434
+Left Down 9175434
+delay(500)
+Left Up 9175434
+Left Down 9175434
+delay(500)
+Left Up 9175434
+delay(640)
+//選全國
+MouseMove 20840893
+Left Down 20840893
+delay(500)
+Left Up 20840893
+delay(500)
+//按進對話框
+
+MouseMove 11403640
+Left Down 11403640
+delay(200)
+Left Up 11403640
+delay(600)
+//鍵入說話
+keypress(ctrl+86)
+
+
+//輸出廣播
+MouseMove 27001170
+Left Down 27001170
+delay(200)
+Left Up 27001170
+delay(500)
+KeyString "\n"
+delay(120000)
+
+jump mode3

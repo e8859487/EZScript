@@ -1,0 +1,316 @@
+[variable]
+var1=0
+var2=
+var3=
+var4=
+var5=
+var6=0
+var7=1
+var8=
+pos1=6161111
+pos2=6161111
+pos3=6161111
+pos4=18022807
+pos5=18022807
+pos6=
+pos7=
+pos8=
+[script]
+//鑽會專用 - 救命呀help變態級掛怪系統
+
+//瘋狂!!!!!!!!!!!!!!!!!!!超神速掛怪系統╯口╰
+
+//戰弓盜掛怪0.29版
+//自動用技+選擇性清零+極限防走位+換武
+
+//0.29版本特色*
+//FIX了死後穿重生不懂轉會戰鬥MODE
+
+//0.28版本特色*
+//增加抓色轉技能, 轉得更準確, 得意之作!!
+
+//0.25版本特色*
+//卡戰鬥技能時自動用「~」鍵
+//卡戰技BUG時會自動打開戰技頁
+//加快打怪系統
+
+//本EZ特色*
+//1*
+//高智能自動偵測cp值
+//cp藍色bar於約20%會使用回cp技
+//綠色bar用完後自動使用技能
+//2*
+//程式會自動檢測經驗值上升到+75%左右(壞人提供)
+//自動飲清零水
+//掛6小時以上請最少帶備10支以上以防萬一
+//清零水於水箱第一格
+//*3
+//內建自動存F9, 嘗試自動爆武器後替換
+
+//Pos1至3=攻擊位置
+//Pos5=自身位置
+//F3 = CP技
+//F4=冰暴/多火
+
+//exp高於75%使用清零水(需要=1, 不需要=0, 默認為1)
+extvar[0] = 1
+
+//以下為內部設定請不要更改
+
+MoveFlag=1
+\\狀態: 0-不移動滑鼠(預設),1-移動滑鼠
+
+var7 = 1
+var6 = 0
+
+keydown(17)
+delay(100)
+keydown(120)
+delay(100)
+keyup(120)
+delay(50)
+keyup(17)
+
+Repeat 4
+
+KeyPress(36)
+KeyPress(112)
+End Repeat
+KeyDown(13)
+KeyUp(13)
+KeyString "/n/n/n"
+Delay(500)
+KeyString "/effectoff"
+KeyDown(13)
+KeyUp(13)
+KeyString "/tradeoff"
+KeyDown(13)
+KeyUp(13)
+KeyString "/shifton"
+KeyDown(13)
+KeyUp(13)
+KeyString "/doff"
+KeyDown(13)
+KeyUp(13)
+KeyString "h"
+KeyDown(8)
+KeyUp(8)
+KeyString "gogogo"
+KeyDown(9)
+KeyUp(9)
+KeyDown(27)
+KeyUp(27)
+KeyDown(32)
+KeyUp(32)
+
+main:
+Call SetBattle
+Call RKAIDR
+if extvar[0] = 1
+Call Zero
+end if
+Call Skill
+Jump main
+
+Skill:
+keypress(120)
+keydown(16)
+Delay(1000)
+//如果藍BAR 太少, 用戰技
+
+//如果綠BAR = 0, 用戰技
+if color[38535916] != 7581316
+call c2
+end if
+//如果藍BAR綠BAR也滿, 打怪
+if color[38077200] = 11372114 && color[38535916] = 7581316
+call skill2
+end if
+if color[38077200] != 11372114
+call c1
+end if
+jump main
+
+c1:
+KeyDown(16)
+KeyPress(27)
+KeyPress(27)
+Delay(50)
+Repeat 4
+KeyPress(113)
+End Repeat
+delay(900)
+MouseMove pos5
+Delay(400)
+right down pos5
+delay(50)
+right up pos5
+call skill1
+return
+
+c2:
+KeyDown(16)
+KeyPress(27)
+KeyPress(27)
+Delay(50)
+while color[33620754] != 1054761
+keydown(192)
+Delay(50)
+keyup(192)
+wend
+extvar[20] = 0
+while color[33620754] = 1054761 && extvar[20] < 50
+keydown(112)
+delay(50)
+keyup(112)
+extvar[20] = extvar[20] + 1
+if extvar[20] > 48
+keypress(192)
+keypress(192)
+jump main
+end if
+wend
+extvar[20] = 0
+while color[38535916] != 7581316 && extvar[20] < 50
+right down pos5
+delay(50)
+right up pos5
+extvar[20] = extvar[20] + 1
+if extvar[20] > 48
+keypress(192)
+keypress(192)
+jump main
+end if
+wend
+call skill2
+return
+
+skill2:
+while color[38535916] = 7581316
+keydown(16)
+MouseMove Pos1
+delay(50)
+Left Click pos1
+delay(50)
+MouseMove Pos2
+delay(50)
+Left Click pos2
+delay(50)
+MouseMove Pos3
+delay(50)
+Left Click pos3
+delay(50)
+wend
+jump main
+
+skill1:
+repeat 120
+keydown(16)
+MouseMove Pos1
+delay(50)
+Left Click pos1
+delay(50)
+MouseMove Pos2
+delay(50)
+Left Click pos2
+delay(50)
+MouseMove Pos3
+delay(50)
+Left Click pos3
+delay(50)
+end repeat
+jump main
+
+\\飲清零水
+Zero:
+If Color[35455532] = 4359845 && Color[35455537] = 4359845
+KeyString "\n\n"
+Delay(500)
+KeyString "Clear Exp Right now!Exp Over 75%"
+Delay(500)
+KeyString "\n\n"
+Delay(1000)
+keypress(27)
+keypress(27)
+keydown(49)
+delay(50)
+keyup(49)
+Delay(500)
+KeyPress(27)
+KeyPress(27)
+End If
+Return
+
+RKAIDR:
+If Color[11075656]=0 && Color[11075867]=0
+LClick 15073457
+Delay(1500)
+End If
+If Color[6553896]=0 && Color[11141592]=0
+LClick 7340533
+Delay(1500)
+End If
+If Color[2687467]=0 && Color[12255837]=0
+LClick 21693169
+Delay(1500)
+End If
+End If
+If Color[6553896]=0 && Color[11141592]=0
+LClick 7340533
+Delay(1500)
+End If
+If Color[2687467]=0 && Color[12255837]=0
+LClick 21693169
+Delay(1500)
+End If
+If Color[9175185]=0 && Color[29688458]=0
+LClick 28181001
+End If
+If Color[8913037]=0 && Color[29033106]=0
+LClick 27197991
+End If
+If Color[8912904]=0 && Color[28181270]=0
+LClick 26214800
+End If
+If Color[10486027]=0 && Color[25297422]=0
+LClick 26870157
+End If
+if color[5243031]=1056809 && color[5767620]=5925235 && color[20709831]=16776191
+Lclick 25362984
+end if
+If Color[328166]=0 && Color[22545178]=0
+LClick 21824242
+Delay(1000)
+LClick 21824242
+End If
+Return
+
+SetBattle:
+While Color[36700855] != 0 || Color[37159613] != 0
+if color[37290712] = 3772985
+keypress(27)
+keypress(27)
+while color[21496044] != 0 && color[21758111] != 0
+muosemove 17695157
+delay(100)
+keypress(81)
+delay(1000)
+wend
+while color[21496044] = 0 && color[21758111] = 0 && color[37290712] = 3772985
+leftdown 21627003
+delay(50)
+left up 21627003
+delay(500)
+if colorcolor[37290712] != 3772985
+keypress(27)
+keypress(27)
+end if
+wend
+end if
+keypress(27)
+keypress(120)
+Delay(1000)
+keypress(9)
+Delay(150)
+Wend
+Return

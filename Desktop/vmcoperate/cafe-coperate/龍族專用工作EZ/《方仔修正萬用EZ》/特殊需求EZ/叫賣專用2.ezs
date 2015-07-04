@@ -1,0 +1,112 @@
+[variable]
+var1=4875652
+var2=
+var3=
+var4=
+var5=5925243
+var6=
+var7=
+var8=
+pos1=1245202
+pos2=1376627
+pos3=4326028
+pos4=11338055
+pos5=11338157
+pos6=11272683
+pos7=21823607
+pos8=36242185
+[script]
+//設定模組  1 為國頻 
+//設定模組  2 為全國廣播 需到海a 25.480
+Extvar[1]=2
+
+jump select_mode
+//使用mode1時 要說的話打在下面
+//使用mode2時直接把要輸入的話複製起來(ctrl+c)
+
+I_WANT_TO_SAY:
+delay(600)
+MouseMove 524296
+Echo "收大量寶石30e 意者密 or 來信(人在電腦前)"
+return
+
+select_mode:
+delay(500)
+KeyString "\n"
+delay(500)
+MouseMove 524296
+Echo "start to say something"
+delay(1300)
+KeyPress(27)
+KeyPress(27)
+KeyPress(27)
+delay(100)
+KeyPress(13)
+KeyPress(13)
+KeyPress(13)
+delay(100)
+if Extvar[1]=1
+jump mode1
+else if Extvar[1]=2
+jump mode2 
+
+end if
+
+//**************分格線*******************//
+//**************分格線*******************//
+mode1:
+
+KeyPress(9)
+KeyPress(9)
+mode11:
+
+call I_WANT_TO_SAY
+KeyString "\n"
+delay(30000)
+
+jump mode11
+
+
+
+mode2:
+//call boss
+MouseMove 33096306
+KeyString "567568585685685bossboss love u\n"
+delay(100)
+KeyString "\n"
+// 確定
+MouseMove 9175434
+Left Down 9175434
+delay(200)
+Left Up 9175434
+Left Down 9175434
+delay(200)
+Left Up 9175434
+delay(640)
+//選全國
+MouseMove 20840893
+Left Down 20840893
+delay(200)
+Left Up 20840893
+delay(200)
+//按進對話框
+
+MouseMove 11403640
+Left Down 11403640
+delay(200)
+Left Up 11403640
+delay(600)
+//鍵入說話
+keypress(ctrl+86)
+
+
+//輸出廣播
+MouseMove 27001170
+Left Down 27001170
+delay(200)
+Left Up 27001170
+delay(500)
+KeyString "\n"
+delay(30000)
+
+jump mode2

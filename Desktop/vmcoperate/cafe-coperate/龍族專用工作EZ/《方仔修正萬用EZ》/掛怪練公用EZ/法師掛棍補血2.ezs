@@ -1,0 +1,246 @@
+[variable]
+var1=1053828
+var2=1057
+var3=2171945
+var4=
+var5=
+var6=
+var7=5933683
+var8=1
+pos1=15270365
+pos2=16646537
+pos3=16646536
+pos4=16318935
+pos5=12845453
+pos6=12845453
+pos7=12845453
+pos8=1
+[script]
+
+
+\\Pos1,4=攻擊位置 \\ 建議同為自己腳邊減低走位機會
+\\pos2=幫目標1 補血 補體 加加
+\\pos3=幫目標2 補血 補體 加加
+\\Var8= 0  是無功能只會敲  1 是單人輔助  2是雙人輔助
+\\F4=補血\神聖治療
+\\F3=祈禱
+\\F8=神聖治療\治療疾病
+
+\\清零放第3格
+\\F9自動換裝
+
+ 
+\\主程序
+KeyString "\n"
+KeyString "\n"
+KeyString "\n"
+KeyString "/shifton\n"
+KeyString "/tradeoff\n"
+
+main:
+KeyPress(120)
+
+KeyPress(27)
+Call SetBattle
+Call Windef
+//Call Zero
+If Var8 != 0
+    Call pray
+    call Restore
+    //Call Health
+End if
+call Attack
+
+Jump main
+
+\\祈禱(F3 , 114)
+pray:
+\\目標一
+	KeyPress(114)
+        Delay(2000) \\祈禱集氣時間
+        MouseMove pos2
+        Delay(300)
+		Repeat 10
+		Right Down pos2
+        	Delay(50)
+		Right Up pos2
+        	Delay(50)
+	end repeat
+        
+        call AttackBuffer
+                
+      \\  Delay(4000)
+\\目標二
+If Var8 = 2  
+                KeyPress(114)
+        Delay(2000) \\祈禱集氣時間
+        MouseMove pos3
+        Delay(300)
+		Repeat 10
+		Right Down pos3
+        	Delay(50)
+		Right Up pos3
+        	Delay(50)
+	end repeat
+        call AttackBuffer
+        \\Delay(4000)
+End if
+Return
+
+\\補血 (F4, 115)
+Restore:
+\\目標一
+	KeyPress(115)
+        Delay(2000) \\補血集氣時間
+        MouseMove pos2
+        Delay(300)
+	Repeat 10
+		Right Down pos2
+        	Delay(50)
+		Right Up pos2
+        	Delay(50)
+	end repeat
+call AttackBuffer
+      \\  Delay(4000)
+
+\\目標二
+If var8 = 2
+	KeyPress(115)
+        Delay(2000) \\補血集氣時間
+        MouseMove pos3
+        Delay(300)
+	Repeat 10
+		Right Down pos3
+        	Delay(50)
+		Right Up pos3
+        	Delay(50)
+	end repeat
+call AttackBuffer
+     \\   Delay(4000)
+End if
+
+Return
+
+
+\\補體 (F8, 119)
+Health:
+\\目標一
+	KeyPress(119)
+        Delay(2000) \\補血集氣時間
+        MouseMove pos2
+        Delay(300)
+	Repeat 10
+		Right Down pos2
+        	Delay(50)
+		Right Up pos2
+       		Delay(50)
+	end repeat
+call AttackBuffer
+        \\Delay(4000)
+\\目標二
+If Var8 = 2
+	KeyPress(119)
+        Delay(2000) \\補血集氣時間
+        MouseMove pos3
+        Delay(300)
+	Repeat 10
+		Right Down pos3
+        	Delay(50)
+		Right Up pos3
+       		Delay(50)
+	end repeat
+call AttackBuffer
+        \\Delay(4000)
+End if
+Return
+
+
+\\主要攻擊模組
+Attack:
+	Repeat 300  //攻擊點
+	Lclick pos1
+	delay(50)
+	Lclick pos4
+	delay(50)
+	End repeat
+Return
+
+\\緩衝器  用來填充放完法術後的等待時間
+AttackBuffer:
+    	Repeat 40  //攻擊點
+	Lclick pos1
+	delay(50)
+	Lclick pos4
+	delay(50)
+	End repeat
+Return
+
+\\飲清零水
+Zero:
+    If Color[35455532] = 4358821 && Color[35455537] = 4358821
+    KeyString "\n\n"
+    Delay(500)
+    KeyString "Clear Exp Right now!Exp Over 75%"
+    Delay(500)
+    KeyString "\n\n"
+    Delay(1000)
+    Delay(500)
+    KeyPress(27)
+    KeyPress(27)
+    KeyPress(51)
+    End If
+Return
+
+
+//視窗防禦判斷
+//使用方法: Call Windef
+Windef:
+//物品交換取消 20030708
+If Color[26542115]=0 && Color[26280398]=0
+  LClick 24903930
+  Delay(500)
+  If Color[6553896]=0 && Color[11141592]=0
+    LClick 7340533
+    Delay(500)
+    If Color[328165]=0 && Color[22938397]=0
+      LClick 21955319
+      Delay(500)
+    End If
+  End If
+//交易失敗確定 20030708
+ElseIf Color[6553896]=0 && Color[11141592]=0
+  LClick 7340533
+  Delay(500)
+  If Color[328165]=0 && Color[22938397]=0
+    LClick 21955319
+    Delay(500)
+  End If
+//邊境參戰取消 20020606
+ElseIf Color[9175185]=0 && Color[29688458]=0
+  LClick 28181001
+//國戰開始確定 20020713
+ElseIf Color[9175179]=0 && Color[29033106]=0
+  LClick 27197995
+//國戰完成確定 20030713
+ElseIf Color[9175048]=0 && Color[28181270]=0
+  LClick 26214800
+//戰鬥技能確定 20021018
+ElseIf Color[10486027]=0 && Color[25297422]=0
+  LClick 26870157
+//郵件視窗離開 20030708
+ElseIf Color[328085]=0 && Color[31654681]=0
+  LClick 29885158
+End If
+Return
+
+設換戰鬥狀態
+//使用方法: Call SetBattle
+SetBattle:
+While Color[36700855] != 0 || Color[37159613] != 0
+  keypress(27)
+  keypress(120)
+  Delay(1000)
+  LClick 36766401
+  Delay(150)
+Wend
+Return

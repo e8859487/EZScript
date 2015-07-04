@@ -1,0 +1,244 @@
+[variable]
+var1=0
+var2=0
+var3=529432
+var4=1056809
+var5=15197159
+var6=-1
+var7=1
+var8=6542212
+pos1=9568413
+pos2=13107732
+pos3=13173274
+pos4=11141816
+pos5=9830763
+pos6=30539940
+pos7=28770462
+pos8=38077171
+[script]
+Delay(200)
+KeyString "\n\n"
+Delay(200)
+//小方改編版超強吸經驗+打怪+作藥版
+//8 補血血量     已事先設定 必要時在修改
+//4 施放戰技位置
+//2 ,3 ,6,7怪物位置
+//藥水箱放第2格
+ //var7=1是要刷新技能
+
+//f4 攻擊技能
+//---------start-------ExtVar0 存CP or Not  ExtVar1 計數器
+Delay(200)
+KeyString "\n"
+KeyString "\n"
+KeyString "\n"
+Delay(100)
+keypress(16)
+keypress(16)
+keypress(16)
+Delay(100)
+
+KeyString "/effectoff\n"
+KeyString"\n"
+KeyString "/tradeoff\n"
+KeyString "/takeon\n"
+KeyString "/nationparty\n"
+KeyString "/d\n"
+KeyString "/d\n"
+KeyString"\n"
+Delay(100)
+keypress(27)
+Call SetBattle
+//-----------一次性變數設定 var8 = 血位置  
+extvar[1]=0
+//-----------變數設定完畢-----------
+start:
+keypress(120)
+keypress(115)
+call makeZero
+call Zero
+if color[34996331] != 50159
+call Eatfood
+end if
+
+ 
+//攻擊
+KeyDown(16)
+Delay(50)
+
+
+Repeat 75
+//放技能
+
+keypress(120)
+    Repeat 10
+KeyDown(16)
+        Left Click pos2
+	Delay(25)
+        Left Click pos3
+	Delay(25)
+        Left Click pos6
+	Delay(25)
+        Left Click pos7
+	 
+    End Repeat
+if   Color[38077171]!=3253817
+	Repeat 8
+	Right Down pos4
+	Delay(10)
+	Right Up pos4
+	Delay(10)
+	End Repeat
+end if
+    Repeat 20
+KeyDown(16)
+        Left Click pos2
+	Delay(25)
+        Left Click pos3
+	Delay(25)
+        Left Click pos6
+	Delay(25)
+        Left Click pos7
+	 
+    End Repeat
+if var7 =1 
+ if   Color[36897523]!=3253826
+delay(500)
+keypress(115)
+keypress(115)
+keypress(115)
+keypress(115)
+keypress(115)
+end if
+end if
+
+
+ Call SetBattle
+call Zero
+End Repeat
+
+ KeyDown(16)
+Delay(50)
+
+ 
+Jump start
+
+
+//-----------------以下副程式
+restore:
+KeyPress(50)
+Delay(100)
+KeyDown(16)
+Delay(500)
+return
+
+waitalive:
+Keyup(16)
+KeyPress(16)
+    while  Color[38469670]=3758451
+        Call restore
+	delay(500)
+    wend
+    KeyString(\n)
+    Delay(500)
+keypress(27)
+keypress(27)
+return
+
+
+//設換戰鬥狀態 + 等待自動復活
+//使用方法: Call SetBattle
+SetBattle:
+
+//repeat 16
+if Color[36700855] != 0 || Color[37159613] != 0
+  call waitalive
+  keypress(27)
+  Delay(1000)
+  LClick 36766401
+  Delay(150)
+end if
+//delay(50)
+//end repeat
+KeyDown(16)
+
+
+Return
+
+
+
+Zero:
+     
+   
+    If Color[35455532] = 4358821 && Color[35455537] = 4358821
+         KeyPress(27)
+             delay(500)
+        KeyPress(27)
+            delay(500)
+         KeyPress(79)
+            delay(500)
+         Left Click 38011535
+            delay(500)
+         Left Click 15729035
+            delay(500)
+         Left Click 7274993
+            delay(500)
+         KeyPress(27)
+             delay(500)
+        KeyPress(27)
+            delay(500)
+    End If
+return
+
+
+makeZero:
+
+ delay(250)
+keypress(27)
+    delay(250)
+keystring("\n\n")
+KeyPress(f1)
+delay(250)
+MouseMove pos5
+
+delay(250)
+Left Down pos5
+
+delay(250)
+Left Up pos5
+
+delay(250)
+MouseMove 23134612
+
+delay(250)
+Left Down 23134612
+
+delay(250)
+Left Up 23134612
+
+delay(250)
+MouseMove 23986502
+
+delay(250)
+Left Down 23986502
+
+delay(250)
+Left Up 23986502
+    delay(250)
+keypress(27)
+    delay(250)
+keypress(27)
+    delay(250)
+Right Down  pos4
+ delay(250)
+Right Up  pos4
+
+ delay(250)
+
+return
+
+Eatfood:
+delay(50)
+keypress(51)
+return
+

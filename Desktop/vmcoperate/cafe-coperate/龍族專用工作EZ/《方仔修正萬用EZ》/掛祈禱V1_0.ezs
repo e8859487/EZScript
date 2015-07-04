@@ -1,0 +1,127 @@
+[variable]
+var1=528408
+var2=2703715
+var3=2701369
+var4=
+var5=
+var6=
+var7=5933683
+var8=2
+pos1=21758313
+pos2=16449938
+pos3=19399010
+pos4=16122175
+pos5=12845453
+pos6=12845453
+pos7=12845453
+pos8=1
+[script]
+\\清零放第3格
+\\jc連續性攻擊技f1
+\\攻擊位置 pos3
+\\主程序
+KeyString "\n"
+KeyString "\n"
+delay(50)
+KeyString "\n"
+delay(150)
+KeyString "/shifton\n"
+KeyString "/tradeoff\n"
+KeyString "/d\n"
+KeyString "/d\n"
+
+main:
+    KeyPress(32)
+    KeyPress(27)
+    Call SetBattle
+    Call Windef
+    Call Zero
+    Call Attack
+Jump main
+
+
+Attack:
+    
+    Keypress(f1)
+    Keypress(f1)
+    Keypress(f1)
+    Delay(2000)
+    Repeat 50
+        Right Down pos3
+        delay(50)
+        Right Up pos3
+
+    End repeat
+
+Delay(4000)
+return
+
+\\飲清零水
+Zero:
+    If Color[35455532] = 4358821 && Color[35455537] = 4358821
+    KeyString "\n\n"
+    Delay(500)
+    KeyString "Clear Exp Right now!Exp Over 75%"
+    Delay(500)
+    KeyString "\n\n"
+    Delay(1000)
+    Delay(500)
+    KeyPress(27)
+    KeyPress(27)
+    KeyPress(51)
+    End If
+Return
+
+
+//視窗防禦判斷
+//使用方法: Call Windef
+Windef:
+//物品交換取消 20030708
+If Color[26542115]=0 && Color[26280398]=0
+  LClick 24903930
+  Delay(500)
+  If Color[6553896]=0 && Color[11141592]=0
+    LClick 7340533
+    Delay(500)
+    If Color[328165]=0 && Color[22938397]=0
+      LClick 21955319
+      Delay(500)
+    End If
+  End If
+//交易失敗確定 20030708
+ElseIf Color[6553896]=0 && Color[11141592]=0
+  LClick 7340533
+  Delay(500)
+  If Color[328165]=0 && Color[22938397]=0
+    LClick 21955319
+    Delay(500)
+  End If
+//邊境參戰取消 20020606
+ElseIf Color[9175185]=0 && Color[29688458]=0
+  LClick 28181001
+//國戰開始確定 20020713
+ElseIf Color[9175179]=0 && Color[29033106]=0
+  LClick 27197995
+//國戰完成確定 20030713
+ElseIf Color[9175048]=0 && Color[28181270]=0
+  LClick 26214800
+//戰鬥技能確定 20021018
+ElseIf Color[10486027]=0 && Color[25297422]=0
+  LClick 26870157
+//郵件視窗離開 20030708
+ElseIf Color[328085]=0 && Color[31654681]=0
+  LClick 29885158
+End If
+Return
+
+設換戰鬥狀態
+//使用方法: Call SetBattle
+SetBattle:
+While Color[36700855] != 0 || Color[37159613] != 0
+  keypress(27)
+  keypress(120)
+  Delay(1000)
+  LClick 36766401
+  Delay(150)
+Wend
+Return
