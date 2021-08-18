@@ -1,2 +1,2 @@
 # EZScript
-nothing
+It ezscripts for game "dragonRaja"
